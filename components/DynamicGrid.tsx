@@ -29,7 +29,9 @@ export default function DynamicGrid<T>({
   function OnLayout(event: LayoutChangeEvent){
     const {width, height} = event.nativeEvent.layout;
     const aspectRatio = height/width;
-    setCellWidth(Math.floor(width/Math.floor(4/aspectRatio))-gap*2);
+    const calcWidth = Math.floor(width/Math.floor(4/aspectRatio))-gap*2;
+    if(calcWidth === cellWidth) return;
+    setCellWidth(calcWidth);
   }
 
   return (
