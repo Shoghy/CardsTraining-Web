@@ -1,15 +1,17 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import DynamicGrid from "@/components/DynamicGrid";
+import { StyleSheet, View } from "react-native";
 
 export default function MainPage(){
-  const arr = new Array<number>(15).fill(0);
+  const arr = new Array<number>(200).fill(0);
+
   return (
     <View style={styles.backGroud}>
-      <ScrollView
+      <DynamicGrid
+        data={arr}
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        {arr.map((_, i) => <View key={i} style={styles.deck}/>)}
-      </ScrollView>
+        renderItem={() => <View></View>}
+        gap={10}
+      />
     </View>
   );
 }
@@ -24,20 +26,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginVertical: "auto",
     backgroundColor: "#000",
-    padding: 10,
+    padding: 10
   },
-  contentContainer:{
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 10
-  },
-  deck:{
-    backgroundColor: "#f00",
-    flex: 1,
-    flexBasis: "35%",
-    aspectRatio: 1,
-    maxWidth: 200,
-    minWidth: 100
-  }
 });
