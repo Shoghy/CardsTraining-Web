@@ -1,23 +1,24 @@
+import DeckButton from "@/components/DeckButton";
 import DynamicGrid from "@/components/DynamicGrid";
-import { StyleSheet, View, Text} from "react-native";
+import { StyleSheet, View} from "react-native";
 
 export default function MainPage(){
-  const arr = new Array<number>(200).fill(0);
+  const arr = new Array<Deck>(200).fill({
+    name: "Hola mundo",
+    cardsCant: 0,
+    lastTimePractice: new Date(),
+    uid: "No"
+  });
 
   return (
     <View style={styles.backGroud}>
       <DynamicGrid
         data={arr}
         style={styles.container}
-        renderItem={() => (
-          <Text
-            style={styles.text}
-          >
-            Hola mundo como andan
-          </Text>
+        renderItem={({item}) => (
+          <DeckButton {...item}/>
         )}
         gap={10}
-        cellStyle={styles.cell}
       />
     </View>
   );
@@ -35,17 +36,5 @@ const styles = StyleSheet.create({
     marginVertical: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
     padding: 10
-  },
-  cell:{
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    flexDirection: "column"
-  },
-  text:{
-    flex: 0.5,
-    overflow: "hidden",
-    fontSize: 17,
-    fontWeight: "700",
-    padding: 7
   }
 });
