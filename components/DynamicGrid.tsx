@@ -5,11 +5,12 @@ export interface DynamicGridProps<T>{
   data: T[]
   renderItem: ListRenderItem<T> | null | undefined
   style?: StyleProp<ViewStyle>
-  gap?: number
+  gap?: number,
+  cellStyle?: StyleProp<ViewStyle>
 }
 
 export default function DynamicGrid<T>({
-  data, renderItem, style, gap = 0
+  data, renderItem, style, gap = 0, cellStyle
 }: DynamicGridProps<T>){
   const [cellWidth, setCellWidth] = useState(1);
 
@@ -20,6 +21,7 @@ export default function DynamicGrid<T>({
         style={[
           props.style,
           styles.cell,
+          cellStyle,
           {width: cellWidth}
         ]}
       />
@@ -54,7 +56,6 @@ const styles = StyleSheet.create({
   },
   cell:{
     aspectRatio: 1,
-    backgroundColor: "#f00",
     maxWidth: "100%"
   }
 });
