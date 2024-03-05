@@ -3,7 +3,7 @@ import DynamicGrid from "@/components/DynamicGrid";
 import { StyleSheet, View} from "react-native";
 
 export default function MainPage(){
-  const arr = new Array<Deck>(200).fill({
+  const arr = new Array<Deck>(50).fill({
     name: "Hola mundo",
     amountOfCards: 0,
     lastTimePracticed: new Date(),
@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
   backGroud:{
     flexDirection: "row",
     height: "100%",
-    backgroundColor: "green"
+    backgroundColor: "green",
+    alignItems: "center"
   },
   container:{
     height: "80%",
     width: "100%",
-    marginVertical: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
     padding: 10
   }
