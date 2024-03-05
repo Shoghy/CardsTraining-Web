@@ -7,6 +7,7 @@ interface Deck{
 }
 
 interface Card{
+  uid: string | number
   statement: string
   answer: string
   description: string
@@ -20,6 +21,7 @@ interface Card{
 }
 
 interface CardRecord{
+  uid: string | number
   answeredCorrect: boolean
   wasHintUsed: boolean
   datetime: Date
