@@ -3,7 +3,8 @@ import moment from "moment";
 import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react-native";
 
 export default function DeckButton({
-  name, lastTimePractice, cardsCant, uid
+  name, lastTimePractice,
+  cardsCant, uid, imgURL
 }: Deck) {
 
   let date: string;
@@ -27,6 +28,7 @@ export default function DeckButton({
     >
       <ImageBackground
         style={styles.container}
+        source={{uri: imgURL}}
       >
         <Text style={styles.title}>
           {name}
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
+    overflow: "hidden"
   },
   container: {
     width: "100%",
