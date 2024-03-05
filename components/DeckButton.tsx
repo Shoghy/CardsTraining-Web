@@ -3,15 +3,15 @@ import moment from "moment";
 import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react-native";
 
 export default function DeckButton({
-  name, lastTimePractice,
-  cardsCant, uid, imgURL
+  name, lastTimePracticed,
+  amountOfCards, uid, imgURL
 }: Deck) {
 
   let date: string;
-  if (lastTimePractice === null) {
-    date = "Null";
+  if (lastTimePracticed === undefined) {
+    date = "N/A";
   } else {
-    date = moment(lastTimePractice).format("DD MMM YYYY");
+    date = moment(lastTimePracticed).format("DD MMM YYYY");
   }
 
   function OnClick() {
@@ -43,7 +43,7 @@ export default function DeckButton({
           <Text
             numberOfLines={1}
           >
-            {cardsCant}
+            {amountOfCards}
           </Text>
         </View>
       </ImageBackground>

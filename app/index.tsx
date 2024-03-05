@@ -5,8 +5,8 @@ import { StyleSheet, View} from "react-native";
 export default function MainPage(){
   const arr = new Array<Deck>(200).fill({
     name: "Hola mundo",
-    cardsCant: 0,
-    lastTimePractice: new Date(),
+    amountOfCards: 0,
+    lastTimePracticed: new Date(),
     uid: "No"
   });
 
