@@ -1,18 +1,29 @@
+import custom_router from "@/utils/custom_router";
 import moment from "moment";
 import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react-native";
 
 export default function DeckButton({
-  name, lastTimePractice, cardsCant
-}: Deck){
+  name, lastTimePractice, cardsCant, uid
+}: Deck) {
+
   let date: string;
-  if(lastTimePractice === null){
+  if (lastTimePractice === null) {
     date = "Null";
-  }else{
+  } else {
     date = moment(lastTimePractice).format("DD MMM YYYY");
   }
+
+  function OnClick() {
+    custom_router.push({
+      pathname: "/deck/[deck]",
+      params: { deck: uid }
+    });
+  }
+
   return (
     <TouchableOpacity
       style={styles.backGround}
+      onPress={() => OnClick()}
     >
       <ImageBackground
         style={styles.container}
@@ -39,30 +50,30 @@ export default function DeckButton({
 }
 
 const styles = StyleSheet.create({
-  backGround:{
+  backGround: {
     width: "100%",
     height: "100%",
     backgroundColor: "#fff",
     borderRadius: 10,
   },
-  container:{
+  container: {
     width: "100%",
     height: "100%",
     flexDirection: "column",
     padding: 7
   },
-  title:{
+  title: {
     flex: 0.5,
     overflow: "hidden",
     fontSize: 20,
     fontWeight: "700"
   },
-  bottom:{
+  bottom: {
     marginTop: "auto",
     justifyContent: "space-between",
     flexDirection: "row"
   },
-  dateText:{
+  dateText: {
     flex: 0.7
   }
 });
