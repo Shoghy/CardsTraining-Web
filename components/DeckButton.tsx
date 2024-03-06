@@ -32,7 +32,10 @@ export default function DeckButton({
         style={styles.container}
         source={{uri: imgURL ? imgURL : undefined}}
       >
-        <Text style={styles.title}>
+        <Text
+          style={styles.title}
+          numberOfLines={4}
+        >
           {name}
         </Text>
         <View style={styles.bottom}>
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     padding: 7
   },
   title: {
-    flex: 0.5,
+    flex: 1,
     overflow: "hidden",
     fontSize: 20,
     fontWeight: "700"
