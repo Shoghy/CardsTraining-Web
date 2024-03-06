@@ -1,5 +1,6 @@
 import custom_router from "@/utils/custom_router";
 import moment from "moment";
+import { useMemo } from "react";
 import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react-native";
 
 export default function DeckButton({
@@ -7,12 +8,13 @@ export default function DeckButton({
   amountOfCards, id, imgURL
 }: IDeck) {
 
-  let date: string;
-  if (lastTimePracticed === undefined) {
-    date = "N/A";
-  } else {
-    date = moment(lastTimePracticed).format("DD MMM YYYY");
-  }
+  const dateString = useMemo(() => {
+    if (!lastTimePracticed) {
+      return "N/A";
+    } else {
+      return moment(lastTimePracticed).format("DD MMM YYYY");
+    }
+  }, [lastTimePracticed]);
 
   function OnClick() {
     custom_router.push({
@@ -38,7 +40,7 @@ export default function DeckButton({
             numberOfLines={1}
             style={styles.dateText}
           >
-            {date}
+            {dateString}
           </Text>
           <Text
             numberOfLines={1}
