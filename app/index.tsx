@@ -5,14 +5,17 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SetUp } from "./_layout";
 import { AntDesign } from "@expo/vector-icons";
+import custom_router from "@/utils/custom_router";
 
 export default function MainPage(){
   const [decks, setDecks] = useState<DeckModel[]>([]);
 
   async function GetAllDecks(){
     const {database} = await SetUp();
-    const decks = await database.get("decks").query().fetch() as DeckModel[];
-    setDecks(decks);
+    const observer = database.get("decks").query().observe();
+    observer.subscribe((decks) => {
+      setDecks(decks as DeckModel[]);
+    });
   }
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export default function MainPage(){
     <View style={styles.backGroud}>
       <TouchableOpacity
         style={styles.header}
+        onPress={() => custom_router.push("create-deck")}
       >
         <AntDesign name="plussquareo" size={30} color={"#fff"} />
       </TouchableOpacity>
@@ -69,14 +73,14 @@ const styles = StyleSheet.create({
     padding: 10
   },
   noDecks:{
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "700",
     color: "white"
   },
   header:{
     height: "10%",
     flexDirection: "row-reverse",
-    padding: 10,
+    padding: 20,
     alignItems: "center"
   },
   footer:{
