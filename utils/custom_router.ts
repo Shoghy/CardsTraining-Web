@@ -48,4 +48,32 @@ const custom_router = {
   }
 };
 
+export enum OrMode{
+  Replace,
+  Push,
+  Navigate
+}
+
+export function GoBackOr(or: Href, orMode: OrMode = OrMode.Replace){
+  if(custom_router.canGoBack()){
+    custom_router.back();
+    return;
+  }
+
+  switch(orMode){
+    case OrMode.Replace:{
+      custom_router.replace(or);
+      break;
+    }
+    case OrMode.Navigate:{
+      custom_router.navigate(or);
+      break;
+    }
+    case OrMode.Push:{
+      custom_router.push(or);
+      break;
+    }
+  }
+}
+
 export default custom_router;
