@@ -18,8 +18,8 @@ export default function DeckButton({
 
   function OnClick() {
     custom_router.push({
-      pathname: "/deck/[deck]",
-      params: { deck: id }
+      pathname: "/deck/[deckId]",
+      params: { deckId: id }
     });
   }
 
