@@ -31,9 +31,11 @@ export default function LoadingModal(open: boolean = false, text: string = ""){
     const [text, setText] = useState(_object.text);
     _object.isOpen = open;
     _object.setOpen = setOpen;
-    _object.open = (text = "") => {
+    _object.open = (text) => {
       setOpen(true);
-      setText(text);
+      if(text !== undefined){
+        setText(text);
+      }
     };
     _object.close = () => setOpen(false);
     _object.toggle = () => setOpen((c) => !c);
