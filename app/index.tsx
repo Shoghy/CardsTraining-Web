@@ -2,8 +2,9 @@ import DeckButton from "@/components/DeckButton";
 import DynamicGrid from "@/components/DynamicGrid";
 import DeckModel from "@/model/DeckModel";
 import { useEffect, useState } from "react";
-import { StyleSheet, View} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SetUp } from "./_layout";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function MainPage(){
   const [decks, setDecks] = useState<DeckModel[]>([]);
@@ -20,6 +21,11 @@ export default function MainPage(){
 
   return (
     <View style={styles.backGroud}>
+      <TouchableOpacity
+        style={styles.header}
+      >
+        <AntDesign name="plussquareo" size={30} color={"#fff"} />
+      </TouchableOpacity>
       <DynamicGrid
         data={decks}
         style={styles.container}
@@ -33,22 +39,47 @@ export default function MainPage(){
           />
         )}
         gap={10}
+        ListEmptyComponent={<EmptyList/>}
       />
+      <View style={styles.footer}/>
+    </View>
+  );
+}
+
+function EmptyList(){
+  return (
+    <View>
+      <Text style={styles.noDecks}>
+        You don't have any decks
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   backGroud:{
-    flexDirection: "row",
+    flexDirection: "column",
     height: "100%",
     backgroundColor: "green",
-    alignItems: "center"
+    justifyContent: "flex-start"
   },
   container:{
     height: "80%",
-    width: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
     padding: 10
+  },
+  noDecks:{
+    fontSize: 25,
+    fontWeight: "700",
+    color: "white"
+  },
+  header:{
+    height: "10%",
+    flexDirection: "row-reverse",
+    padding: 10,
+    alignItems: "center"
+  },
+  footer:{
+    height: "10%",
   }
 });

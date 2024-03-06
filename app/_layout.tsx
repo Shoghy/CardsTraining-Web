@@ -7,8 +7,16 @@ import DeckModel from "@/model/DeckModel";
 import CardModel from "@/model/CardModel";
 import CardRecordModel from "@/model/CardRecordModel";
 import { sleep } from "@/utils/functions";
+import { useFonts } from "expo-font";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Layout(){
+  const [fontsLoaded] = useFonts({
+    ...AntDesign.font
+  });
+
+  if(!fontsLoaded) return <></>;
+  
   return <Slot/>;
 }
 
