@@ -24,12 +24,13 @@ export default function MainPage(){
 
   return (
     <View style={styles.backGroud}>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={() => custom_router.push("create-deck")}
-      >
-        <AntDesign name="plussquareo" size={30} color={"#fff"} />
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => custom_router.push("create-deck")}
+        >
+          <AntDesign name="plussquareo" size={30} color={"#fff"} />
+        </TouchableOpacity>
+      </View>
       <DynamicGrid
         data={decks}
         style={styles.container}
