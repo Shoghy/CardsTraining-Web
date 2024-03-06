@@ -1,0 +1,24 @@
+import { Model } from "@nozbe/watermelondb";
+import { children, date, field, text } from "@nozbe/watermelondb/decorators";
+
+export default class DeckModel extends Model{
+  static table = "decks";
+  static associations = {
+    cards: { type: "has_many", foreignKey:  "deckUID" }
+  };
+
+  /**@type {string} */
+  @text("name") name;
+
+  /**@type {number} */
+  @field("amountOfCards") amountOfCards;
+
+  /**@type {string} */
+  @text("imgURL") imgURL;
+
+  /**@type {Date} */
+  @date("lastTimePracticed") lastTimePracticed;
+
+  /**@type {import("./CardModel").default[]} */
+  @children("cards") cards;
+}
