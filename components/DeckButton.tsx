@@ -4,8 +4,8 @@ import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react
 
 export default function DeckButton({
   name, lastTimePracticed,
-  amountOfCards, uid, imgURL
-}: Deck) {
+  amountOfCards, id, imgURL
+}: IDeck) {
 
   let date: string;
   if (lastTimePracticed === undefined) {
@@ -17,7 +17,7 @@ export default function DeckButton({
   function OnClick() {
     custom_router.push({
       pathname: "/deck/[deck]",
-      params: { deck: uid }
+      params: { deck: id }
     });
   }
 

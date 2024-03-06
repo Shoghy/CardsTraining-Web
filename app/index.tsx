@@ -3,11 +3,11 @@ import DynamicGrid from "@/components/DynamicGrid";
 import { StyleSheet, View} from "react-native";
 
 export default function MainPage(){
-  const arr = new Array<Deck>(50).fill({
+  const arr = new Array<IDeck>(50).fill({
     name: "Hola mundo",
     amountOfCards: 0,
     lastTimePracticed: new Date(),
-    uid: "No"
+    id: "No"
   });
 
   return (
@@ -19,6 +19,7 @@ export default function MainPage(){
           <DeckButton {...item}/>
         )}
         gap={10}
+        keyExtractor={(_, i) => `${i}`}
       />
     </View>
   );

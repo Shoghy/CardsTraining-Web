@@ -8,11 +8,12 @@ export interface DynamicGridProps<T>{
   gap?: number,
   cellStyle?: StyleProp<ViewStyle>
   ListEmptyComponent?: React.JSX.Element
+  keyExtractor?: ((item: T, index: number) => string)
 }
 
 export default function DynamicGrid<T>({
   data, renderItem, style, gap = 0, cellStyle,
-  ListEmptyComponent
+  ListEmptyComponent, keyExtractor
 }: DynamicGridProps<T>){
   const [cellWidth, setCellWidth] = useState(1);
 
@@ -47,6 +48,7 @@ export default function DynamicGrid<T>({
       CellRendererComponent={CellRenderer}
       onLayout={OnLayout}
       ListEmptyComponent={ListEmptyComponent}
+      keyExtractor={keyExtractor}
     />
   );
 }

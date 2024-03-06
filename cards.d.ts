@@ -1,13 +1,14 @@
-interface Deck{
+interface IDeck{
+  id: string
   name: string
   amountOfCards: number
   lastTimePracticed?: Date
-  uid: string | number
   imgURL?: string
 }
 
-interface Card{
-  uid: string | number
+interface ICard{
+  id: string
+  deckUID: string | number
   statement: string
   answer: string
   description: string
@@ -20,8 +21,9 @@ interface Card{
   timesWrong: number
 }
 
-interface CardRecord{
-  uid: string | number
+interface ICardRecord{
+  id: string
+  cardUID: string | number
   answeredCorrect: boolean
   wasHintUsed: boolean
   datetime: Date
