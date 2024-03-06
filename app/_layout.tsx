@@ -12,10 +12,6 @@ export default function Layout(){
   return <Slot/>;
 }
 
-function checkIfUserIsLoggedIn(): boolean {
-  return false;
-}
-
 let adapter: DatabaseAdapter;
 let database: Database;
 let alreadyRunning: boolean = false;
@@ -45,14 +41,6 @@ export async function SetUp(){
       },
       onSetUpError: (error) => {
         console.log("Ocurrió un error", error);
-      },
-      extraIncrementalIDBOptions: {
-        onDidOverwrite: () => {},
-        onversionchange: () => {
-          if (checkIfUserIsLoggedIn()) {
-            window.location.reload();
-          }
-        },
       }
     });
   }else{
