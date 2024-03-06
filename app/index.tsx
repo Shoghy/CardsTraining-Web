@@ -12,9 +12,9 @@ export default function MainPage(){
 
   async function GetAllDecks(){
     const {database} = await SetUp();
-    const observer = database.get("decks").query().observe();
+    const observer = database.get<DeckModel>("decks").query().observe();
     observer.subscribe((decks) => {
-      setDecks(decks as DeckModel[]);
+      setDecks(decks);
     });
   }
 
