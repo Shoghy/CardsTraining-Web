@@ -16,10 +16,10 @@ export default class CardRecordModel extends Model{
   /**@type {Date} */
   @date("datetime") datetime;
 
-  /**@type {number} */
+  /**@type {number | null} */
   @field("timeLeft") timeLeft;
 
-  /**@type {number} */
+  /**@type {number | null} */
   @field("maxTime") maxTime;
 
   /**@type {import("./CardModel").default} */

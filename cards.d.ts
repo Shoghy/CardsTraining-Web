@@ -2,18 +2,18 @@ interface IDeck{
   id: string
   name: string
   amountOfCards: number
-  lastTimePracticed?: Date
-  imgURL?: string
+  lastTimePracticed: Date | null
+  imgURL: string | null
 }
 
 interface ICard{
   id: string
-  deckUID: string | number
+  deckUID: string
   statement: string
   answer: string
   description: string
-  hint?: string
-  lastTimePracticed?: Date
+  hint: string | null
+  lastTimePracticed: Date | null
   score: number
   /** Amount of times this card was answered right */
   timesRight: number
@@ -23,12 +23,12 @@ interface ICard{
 
 interface ICardRecord{
   id: string
-  cardUID: string | number
+  cardUID: string
   answeredCorrect: boolean
   wasHintUsed: boolean
   datetime: Date
   /** Time left if the user was practicing with a timer */
-  timeLeft?: number
+  timeLeft: number | null
   /** Timer time */
-  maxTime?: number
+  maxTime: number | null
 }

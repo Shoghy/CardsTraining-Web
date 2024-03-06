@@ -1,25 +1,38 @@
 import DeckButton from "@/components/DeckButton";
 import DynamicGrid from "@/components/DynamicGrid";
+import DeckModel from "@/model/DeckModel";
+import { useEffect, useState } from "react";
 import { StyleSheet, View} from "react-native";
+import { SetUp } from "./_layout";
 
 export default function MainPage(){
-  const arr = new Array<IDeck>(50).fill({
-    name: "Hola mundo",
-    amountOfCards: 0,
-    lastTimePracticed: new Date(),
-    id: "No"
-  });
+  const [decks, setDecks] = useState<DeckModel[]>([]);
+
+  async function GetAllDecks(){
+    const {database} = await SetUp();
+    const decks = await database.get("decks").query().fetch() as DeckModel[];
+    setDecks(decks);
+  }
+
+  useEffect(() => {
+    GetAllDecks();
+  }, []);
 
   return (
     <View style={styles.backGroud}>
       <DynamicGrid
-        data={arr}
+        data={decks}
         style={styles.container}
         renderItem={({item}) => (
-          <DeckButton {...item}/>
+          <DeckButton
+            amountOfCards={item.amountOfCards}
+            id={item.id}
+            name={item.name}
+            imgURL={item.imgURL}
+            lastTimePracticed={item.lastTimePracticed}
+          />
         )}
         gap={10}
-        keyExtractor={(_, i) => `${i}`}
       />
     </View>
   );

@@ -13,10 +13,10 @@ export default class DeckModel extends Model{
   /**@type {number} */
   @field("amountOfCards") amountOfCards;
 
-  /**@type {string} */
+  /**@type {string | null} */
   @text("imgURL") imgURL;
 
-  /**@type {Date} */
+  /**@type {Date | null} */
   @date("lastTimePracticed") lastTimePracticed;
 
   /**@type {import("./CardModel").default[]} */

@@ -28,7 +28,7 @@ export default function DeckButton({
     >
       <ImageBackground
         style={styles.container}
-        source={{uri: imgURL}}
+        source={{uri: imgURL ? imgURL : undefined}}
       >
         <Text style={styles.title}>
           {name}

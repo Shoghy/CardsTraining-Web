@@ -17,10 +17,10 @@ export default class CardModel extends Model{
   /**@type {string} */
   @text("description") description;
 
-  /**@type {string} */
+  /**@type {string | null} */
   @text("hint") hint;
 
-  /**@type {Date} */
+  /**@type {Date | null} */
   @date("lastTimePracticed") lastTimePracticed;
 
   /**@type {number} */
