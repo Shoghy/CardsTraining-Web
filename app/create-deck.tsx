@@ -1,6 +1,35 @@
+import LoadingModal from "@/components/LoadingModal";
+import { GoBackOr } from "@/utils/custom_router";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SetUp } from "./_layout";
+import DeckModel from "@/model/DeckModel";
+import { useState } from "react";
 
 export default function CreateDeck(){
+  const loading = LoadingModal();
+  const [deckName, setDeckName] = useState("");
+
+  function OnCancel(){
+    GoBackOr("/");
+  }
+
+  async function OnSave(){
+    loading.open("Saving deck...");
+    const { database } = await SetUp();
+
+    database.write(async () => {
+      await database.get<DeckModel>("decks")
+        .create((deck) => {
+          deck.name = deckName;
+          deck.amountOfCards = 0;
+          deck.imgURL = null,
+          deck.lastTimePracticed = null;
+        });
+
+      GoBackOr("/");
+    });
+  }
+
   return (
     <View style={styles.backGround}>
       <View style={styles.deckForm}>
@@ -10,23 +39,33 @@ export default function CreateDeck(){
         <TextInput
           style={styles.input}
           maxLength={50}
+          value={deckName}
+          onChangeText={setDeckName}
         />
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.buttons}>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => OnCancel()}
+        >
           <Text style={styles.buttonsText}>
             Cancel
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons}>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => OnSave()}
+        >
           <Text style={styles.buttonsText}>
             Save
           </Text>
         </TouchableOpacity>
       </View>
+      <loading.Element/>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   backGround: {
     backgroundColor: "green",
