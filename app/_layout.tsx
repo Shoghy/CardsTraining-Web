@@ -9,6 +9,7 @@ import CardRecordModel from "@/model/CardRecordModel";
 import { sleep } from "@/utils/functions";
 import { useFonts } from "expo-font";
 import { AntDesign } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 export default function Layout(){
   const [fontsLoaded] = useFonts({
@@ -17,7 +18,12 @@ export default function Layout(){
 
   if(!fontsLoaded) return <></>;
   
-  return <Slot/>;
+  return (
+    <>
+      <StatusBar style="light" backgroundColor="rgba(0,0,0,0.7)"/>
+      <Slot/>
+    </>
+  );
 }
 
 let adapter: DatabaseAdapter;
@@ -57,7 +63,7 @@ export async function SetUp(){
       dbName,
       schema,
       migrations,
-      jsi: true,
+      jsi: Platform.OS === "ios",
       onSetUpError: error => {
         console.log("Ocurrió un error", error);
       }

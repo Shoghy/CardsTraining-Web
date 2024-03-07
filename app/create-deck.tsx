@@ -1,6 +1,6 @@
 import LoadingModal from "@/components/LoadingModal";
 import { GoBackOr } from "@/utils/custom_router";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SetUp } from "./_layout";
 import DeckModel from "@/model/DeckModel";
 import { useState } from "react";
@@ -70,10 +70,11 @@ const styles = StyleSheet.create({
   backGround: {
     backgroundColor: "green",
     height: "100%",
-    paddingVertical: 50,
+    paddingTop: 30,
     alignItems: "center"
   },
   deckForm:{
+    marginTop: StatusBar.currentHeight,
     width: "80%",
     maxWidth: 400,
     aspectRatio: 1,

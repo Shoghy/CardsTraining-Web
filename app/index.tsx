@@ -2,7 +2,7 @@ import DeckButton from "@/components/DeckButton";
 import DynamicGrid from "@/components/DynamicGrid";
 import DeckModel from "@/model/DeckModel";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar } from "react-native";
 import { SetUp } from "./_layout";
 import { AntDesign } from "@expo/vector-icons";
 import custom_router from "@/utils/custom_router";
@@ -63,6 +63,7 @@ function EmptyList(){
 
 const styles = StyleSheet.create({
   backGroud:{
+    paddingTop: StatusBar.currentHeight,
     flexDirection: "column",
     height: "100%",
     backgroundColor: "green",
