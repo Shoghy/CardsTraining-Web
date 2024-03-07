@@ -2,11 +2,12 @@ import DeckButton from "@/components/DeckButton";
 import DynamicGrid from "@/components/DynamicGrid";
 import DeckModel from "@/model/DeckModel";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar } from "react-native";
+import { StyleSheet, View, Text, StatusBar } from "react-native";
 import { SetUp } from "./_layout";
 import { AntDesign } from "@expo/vector-icons";
 import custom_router from "@/utils/custom_router";
 import LoadingModal from "@/components/LoadingModal";
+import BasicButton from "@/components/BasicButton";
 
 export default function MainPage(){
   const [decks, setDecks] = useState<DeckModel[]>([]);
@@ -34,11 +35,11 @@ export default function MainPage(){
   return (
     <View style={styles.backGroud}>
       <View style={styles.header}>
-        <TouchableOpacity
+        <BasicButton
           onPress={() => custom_router.push("create-deck")}
         >
           <AntDesign name="plussquareo" size={30} color={"#fff"} />
-        </TouchableOpacity>
+        </BasicButton>
       </View>
       <DynamicGrid
         data={decks}

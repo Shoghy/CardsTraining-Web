@@ -1,9 +1,10 @@
 import LoadingModal from "@/components/LoadingModal";
 import { GoBackOr } from "@/utils/custom_router";
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 import { SetUp } from "./_layout";
 import DeckModel from "@/model/DeckModel";
 import { useState } from "react";
+import BasicButton from "@/components/BasicButton";
 
 export default function CreateDeck(){
   const loading = LoadingModal();
@@ -44,22 +45,22 @@ export default function CreateDeck(){
         />
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity
+        <BasicButton
           style={styles.buttons}
           onPress={() => OnCancel()}
         >
           <Text style={styles.buttonsText}>
             Cancel
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </BasicButton>
+        <BasicButton
           style={styles.buttons}
           onPress={() => OnSave()}
         >
           <Text style={styles.buttonsText}>
             Save
           </Text>
-        </TouchableOpacity>
+        </BasicButton>
       </View>
       <loading.Element/>
     </View>

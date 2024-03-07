@@ -1,7 +1,8 @@
 import custom_router from "@/utils/custom_router";
 import moment from "moment";
 import { useMemo } from "react";
-import { StyleSheet, ImageBackground, TouchableOpacity, Text, View } from "react-native";
+import { StyleSheet, ImageBackground, Text, View } from "react-native";
+import BasicButton from "./BasicButton";
 
 export default function DeckButton({
   name, lastTimePracticed,
@@ -24,7 +25,7 @@ export default function DeckButton({
   }
 
   return (
-    <TouchableOpacity
+    <BasicButton
       style={styles.backGround}
       onPress={() => OnClick()}
     >
@@ -52,7 +53,7 @@ export default function DeckButton({
           </Text>
         </View>
       </ImageBackground>
-    </TouchableOpacity>
+    </BasicButton>
   );
 }
 
