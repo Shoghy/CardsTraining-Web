@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     padding: 7
   },
   title: {
-    flex: 1,
     overflow: "hidden",
     fontSize: 20,
     fontWeight: "700"
