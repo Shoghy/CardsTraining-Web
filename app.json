@@ -32,14 +32,6 @@
     "plugins": [
       "expo-router",
       [
-        "@morrowdigital/watermelondb-expo-plugin",
-        {
-          "database": [
-            "CardsTraining.db"
-          ]
-        }
-      ],
-      [
         "expo-build-properties",
         {
           "android": {
