@@ -6,20 +6,29 @@ import { StyleSheet, View, Text, TouchableOpacity, StatusBar } from "react-nativ
 import { SetUp } from "./_layout";
 import { AntDesign } from "@expo/vector-icons";
 import custom_router from "@/utils/custom_router";
+import LoadingModal from "@/components/LoadingModal";
 
 export default function MainPage(){
   const [decks, setDecks] = useState<DeckModel[]>([]);
-
-  async function GetAllDecks(){
-    const {database} = await SetUp();
-    const observer = database.get<DeckModel>("decks").query().observe();
-    observer.subscribe((decks) => {
-      setDecks(decks);
-    });
-  }
+  const loading = LoadingModal(true);
 
   useEffect(() => {
+    let unsubscribe = () => {};
+
+    async function GetAllDecks(){
+      const {database} = await SetUp();
+
+      const observer = database.get<DeckModel>("decks").query().observe();
+      unsubscribe = observer.subscribe((decks) => {
+        setDecks(decks);
+      }).unsubscribe;
+
+      loading.close();
+    }
+
     GetAllDecks();
+
+    return () => { unsubscribe(); };
   }, []);
 
   return (
@@ -47,6 +56,7 @@ export default function MainPage(){
         ListEmptyComponent={<EmptyList/>}
       />
       <View style={styles.footer}/>
+      <loading.Element/>
     </View>
   );
 }
