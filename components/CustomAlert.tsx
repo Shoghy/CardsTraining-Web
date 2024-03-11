@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useMemo, useState } from "react";
 import { GestureResponderEvent, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export interface AlertButton{
@@ -65,6 +66,7 @@ export default function CustomAlert({
     <Modal
       visible={visible}
       transparent
+      animationType="fade"
     >
       <View style={styles.backGround}>
         <View style={styles.alert}>
@@ -80,6 +82,124 @@ export default function CustomAlert({
       </View>
     </Modal>
   );
+}
+
+export interface SelfCustomAlert{
+  title: string
+  setTitle: React.Dispatch<React.SetStateAction<string>>
+  buttons?: AlertButton[]
+  setButtons: React.Dispatch<React.SetStateAction<AlertButton[] | undefined>>
+  showXButton: boolean
+  setShowXButton: React.Dispatch<React.SetStateAction<boolean>>
+  visible: boolean
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+  text?: string
+  setText: React.Dispatch<React.SetStateAction<string | undefined>>
+  readonly Element: (props: {
+    onXPress?: (e: GestureResponderEvent) => unknown
+  }) => React.JSX.Element
+  open: () => void
+  close: () => void
+  toggle: () => void
+  openWith(args: Omit<UseCustomAlertArgs, "visible">): void
+  openAndMerge(args: Omit<UseCustomAlertArgs, "visible">): void
+}
+
+export interface UseCustomAlertArgs{
+  title?: string
+  showXButton?: boolean
+  visible?: boolean
+  text?: string
+  buttons?: AlertButton[]
+}
+
+export function useCustomAlert({
+  title = "", visible = false,
+  showXButton = true, text, buttons
+}: UseCustomAlertArgs){
+  const self: SelfCustomAlert = useMemo(() => {
+    return {
+      Element,
+      title,
+      visible,
+      showXButton,
+      text,
+      buttons
+    } as never;
+  }, []);
+
+  function Element({onXPress}: {onXPress?: (e: GestureResponderEvent) => unknown}){
+    const [title, setTitle] = useState(self.title);
+    self.title = title;
+    self.setTitle = setTitle;
+  
+    const [buttons, setButtons] = useState(self.buttons);
+    self.buttons = buttons;
+    self.setButtons = setButtons;
+
+    const [showXButton, setShowXButton] = useState(self.showXButton);
+    self.showXButton = showXButton;
+    self.setShowXButton = setShowXButton;
+
+    const [visible, setVisible] = useState(self.visible);
+    self.visible = visible;
+    self.setVisible = setVisible;
+    self.open = () => setVisible(true);
+    self.close = () => setVisible(false);
+    self.toggle = () => setVisible((c) => !c);
+    self.openWith = ({title = "", ...args}: Omit<UseCustomAlertArgs, "visible">) => {
+      setTitle(title);
+      setButtons(args.buttons);
+      setShowXButton(args.showXButton ? args.showXButton : true);
+      setText(args.text);
+      setVisible(true);
+    };
+    self.openAndMerge = ({...args}: Omit<UseCustomAlertArgs, "visible">) => {
+      if("buttons" in args){
+        setButtons(args.buttons);
+      }
+      if("showXButton" in args){
+        setShowXButton(!!args.showXButton);
+      }
+      if("text" in args){
+        setText(args.text);
+      }
+      if(typeof args.text === "string"){
+        setTitle(args.text);
+      }
+      setVisible(true);
+    };
+
+    const [text, setText] = useState(self.text);
+    self.text = text;
+    self.setText = setText;
+
+    function XButtonAction(){
+      if(!showXButton) return undefined;
+
+      function Action(e: GestureResponderEvent){
+        if(onXPress){
+          onXPress(e);
+        }
+
+        setVisible(false);
+      }
+  
+      return Action;
+    }
+
+    return (
+      <CustomAlert
+        title={title}
+        buttons={buttons}
+        onXPress={XButtonAction()}
+        visible={visible}
+        text={text}
+      />
+    );
+  }
+
+  return self;
 }
 
 const styles = StyleSheet.create({
