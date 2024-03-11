@@ -19,7 +19,7 @@ export default function CreateDeck(){
     const { database } = await SetUp();
 
     database.write(async () => {
-      await database.get<DeckModel>("decks")
+      await database.get<DeckModel>(DeckModel.table)
         .create((deck) => {
           deck.name = deckName;
           deck.amountOfCards = 0;
