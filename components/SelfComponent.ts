@@ -8,13 +8,12 @@ export interface SelfComponentReturn<P>{
   SetPropsAndMerge(props: P): void
 }
 
-export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
-  component: C,
-  props: P
+export function SelfComponent<P extends object, C extends (props: P) => React.JSX.Element>(
+  component: C
 ){
   const _self: SelfComponentReturn<P> = useMemo(() => {
     return {
-      props,
+      props: {} as never,
       Element,
       setProps: () => {},
       SetProp: () => {},
