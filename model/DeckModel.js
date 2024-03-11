@@ -19,6 +19,6 @@ export default class DeckModel extends Model{
   /**@type {Date | null} */
   @date("lastTimePracticed") lastTimePracticed;
 
-  /**@type {import("./CardModel").default[]} */
+  /**@type {import("@nozbe/watermelondb").Query<import("./CardModel").default>} */
   @children("cards") cards;
 }

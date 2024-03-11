@@ -22,6 +22,6 @@ export default class CardRecordModel extends Model{
   /**@type {number | null} */
   @field("maxTime") maxTime;
 
-  /**@type {import("./CardModel").default} */
+  /**@type {import("@nozbe/watermelondb").Relation<import("./CardModel").default>} */
   @immutableRelation("cards", "cardUID") cardUID;
 }
