@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     fontSize: 20,
     borderRadius: 10,
-    padding: 5,
-    marginTop: 10,
+    padding: 5
   }
 });
