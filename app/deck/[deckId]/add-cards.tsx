@@ -45,6 +45,10 @@ export default function AddCards(){
         card.timesRight = 0;
         card.timesWrong = 0;
       });
+
+      await deck.update(() => {
+        deck.amountOfCards += 1;
+      });
     });
 
     statement.setValue("");
