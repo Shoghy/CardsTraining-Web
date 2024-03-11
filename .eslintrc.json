@@ -47,7 +47,12 @@
     "react-native/no-inline-styles": 1,
     "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
-    "no-empty": ["warn", {"allowEmptyCatch": true}],
+    "no-empty": [
+      "warn",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "warn",
     "no-console": "warn"
   }

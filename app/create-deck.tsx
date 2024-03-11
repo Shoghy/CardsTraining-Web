@@ -34,7 +34,7 @@ export default function CreateDeck(){
   return (
     <View style={styles.backGround}>
       <View style={styles.deckForm}>
-        <Text style={styles.label}>
+        <Text style={styles.title}>
           Deck name:
         </Text>
         <TextInput
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
       height: 10
     }
   },
-  label:{
+  title:{
     fontSize: 20,
     fontWeight: "bold"
   },
