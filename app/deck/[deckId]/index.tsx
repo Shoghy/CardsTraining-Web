@@ -1,12 +1,28 @@
+import { SetUp } from "@/app/_layout";
 import BasicButton from "@/components/BasicButton";
+import DeckModel from "@/model/DeckModel";
 import custom_router, { GoBackOr } from "@/utils/custom_router";
 import { useGlobalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 
 export default function DeckPage(){
   const { deckId } = useGlobalSearchParams<{deckId: string}>();
   const [hasCards, setHasCards] = useState(false);
+
+  async function CheckDesk(){
+    const { database } = await SetUp();
+    const deck = await database
+      .get<DeckModel>(DeckModel.table)
+      .find(deckId);
+    if(deck.amountOfCards > 0){
+      setHasCards(true);
+    }
+  }
+
+  useEffect(() => {
+    CheckDesk();
+  }, []);
 
   return (
     <View style={styles.backGround}>
