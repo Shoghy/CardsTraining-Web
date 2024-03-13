@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import DecksPage from "./pages";
 import { Database } from "@nozbe/watermelondb";
 import LokiJSAdapter from "@nozbe/watermelondb/adapters/lokijs";
 import schema from "./model/schema";
@@ -29,6 +30,7 @@ export default function App() {
     <AppContext.Provider value={appContext}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" Component={DecksPage} />
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>
