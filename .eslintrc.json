@@ -1,9 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true,
-    "react-native/react-native": true
+    "es2021": true
   },
   "extends": [
     "eslint:recommended",
@@ -13,16 +11,13 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
-    "ecmaFeatures": {
-      "jsx": true
-    },
     "sourceType": "module"
   },
   "plugins": [
     "@typescript-eslint",
-    "react",
-    "react-native"
+    "react"
   ],
+  "ignorePatterns":["**/dist/*"],
   "rules": {
     "indent": [
       "warn",
@@ -43,10 +38,7 @@
       "error",
       "always"
     ],
-    "react-native/no-unused-styles": 1,
-    "react-native/no-inline-styles": 1,
     "react/react-in-jsx-scope": "off",
-    "react/no-unescaped-entities": "off",
     "no-empty": [
       "warn",
       {
