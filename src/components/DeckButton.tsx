@@ -4,6 +4,7 @@ import moment from "moment";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./DeckButton.module.css";
+import EllipsisText from "./EllipsisText";
 
 export default function DeckButton({ deck: {
   lastTimePracticed, id, name, amountOfCards
@@ -28,9 +29,9 @@ export default function DeckButton({ deck: {
       className={styles.backGround}
     >
       <div className={styles.container}>
-        <h2 className={styles.title}>
+        <EllipsisText className={styles.title}>
           {name}
-        </h2>
+        </EllipsisText>
         <div className={styles.bottom}>
           <span>{dateString}</span>
           <span>{amountOfCards}</span>

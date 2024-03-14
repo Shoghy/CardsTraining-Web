@@ -38,12 +38,9 @@ export default function DecksPage(){
         <div className={styles["deck-container"]}>
           <ListEnumerator
             data={decks}
-            renderItem={({item}) => (
-              <DeckButton
-                deck={item}
-              />
-            )}
+            renderItem={({item}) => <DeckButton deck={item} />}
             emptyListElement={<h1>Hola mundo</h1>}
+            keyStractor={({item}) => item.id}
           />
         </div>
       </div>
