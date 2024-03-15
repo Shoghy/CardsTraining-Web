@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
-import DecksPage from "./pages";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Database } from "@nozbe/watermelondb";
 import LokiJSAdapter from "@nozbe/watermelondb/adapters/lokijs";
 import schema from "./model/schema";
@@ -9,6 +8,14 @@ import CardModel from "./model/CardModel";
 import CardRecordModel from "./model/CardRecordModel";
 import { useEffect, useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
+import DecksPage from "@/pages/index";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: DecksPage
+  }
+]);
 
 export default function App() {
   const [appContext, setAppContext] = useState<IAppContext>();
@@ -28,11 +35,7 @@ export default function App() {
 
   return (
     <AppContext.Provider value={appContext}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" Component={DecksPage} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router}/>
     </AppContext.Provider>
   );
 }

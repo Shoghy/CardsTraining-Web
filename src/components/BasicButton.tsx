@@ -11,10 +11,8 @@ export default function BasicButton({
   onMouseDown, onMouseDownCapture, onMouseUp,
   onMouseUpCapture, ...props
 }: BasicButtonProps){
-  if(className){
-    className = `${styles.button} ${className}`;
-  }else{
-    className = styles.button;
+  if(!className){
+    className = "";
   }
 
   function CatchClick<E>(event: E, func?: (e: E) => void){
@@ -28,7 +26,7 @@ export default function BasicButton({
   return (
     <div
       data-disabled={disabled}
-      className={className}
+      className={`${styles.button} ${className}`}
       onClick={(e) => CatchClick(e, onClick)}
       onClickCapture={(e) => CatchClick(e, onClickCapture)}
       onAuxClick={(e) => CatchClick(e, onAuxClick)}
