@@ -15,9 +15,11 @@ export default function EllipsisText({
 
   function CalculateLineClamp(){
     const div = divRef.current;
+    if(!div) return;
+
     const parent = div.parentElement! as HTMLDivElement;
     parent.onresize = () => CalculateLineClamp();
-    
+
     const clampTo = Math.floor(parent.clientHeight/lineHeight.current);
     div.style.webkitLineClamp = clampTo.toString();
   }
