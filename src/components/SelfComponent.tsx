@@ -31,7 +31,7 @@ export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
       _self.setProps = setProps;
       _self.SetProp = SetProp;
       _self.SetPropsAndMerge = SetPropsAndMerge;
-      
+
       function SetProp<PN extends keyof P>(
         propName: PN,
         value: P[PN]
@@ -41,7 +41,7 @@ export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
           return {...c};
         });
       }
-  
+
       function SetPropsAndMerge(props: P){
         setProps((c) => {
           for(const propName in props){
