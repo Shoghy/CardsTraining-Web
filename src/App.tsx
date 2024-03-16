@@ -6,7 +6,7 @@ import migrations from "./model/migrations";
 import DeckModel from "./model/DeckModel";
 import CardModel from "./model/CardModel";
 import CardRecordModel from "./model/CardRecordModel";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
 import DecksPage from "@/pages/index";
 
@@ -18,20 +18,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const [appContext, setAppContext] = useState<IAppContext>();
-
-  async function SetUpAppContext(){
-    const localDB = await SetUpDatabase();
-    setAppContext({
-      localDB
-    });
-  }
-
-  useEffect(() => {
-    SetUpAppContext();
-  }, []);
-
-  if(!appContext) return <></>;
+  const [appContext] = useState<IAppContext>({
+    localDB: SetUpDatabase()
+  });
 
   return (
     <AppContext.Provider value={appContext}>
@@ -42,7 +31,7 @@ export default function App() {
 
 const dbName = "CardsTraining";
 
-async function SetUpDatabase(){
+function SetUpDatabase(){
   const adapter = new LokiJSAdapter({
     dbName,
     schema,
