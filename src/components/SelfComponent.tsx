@@ -21,16 +21,16 @@ export function SelfComponent<
 export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
   Component: C
 ){
-  const _self: SelfComponentReturn<P> = useMemo(() => {
+  const self: SelfComponentReturn<P> = useMemo(() => {
     function Element(eProps: P){
       const [props, setProps] = useState({
         ...eProps,
-        ..._self.props
+        ...self.props
       });
-      _self.props = props;
-      _self.setProps = setProps;
-      _self.SetProp = SetProp;
-      _self.SetPropsAndMerge = SetPropsAndMerge;
+      self.props = props;
+      self.setProps = setProps;
+      self.SetProp = SetProp;
+      self.SetPropsAndMerge = SetPropsAndMerge;
 
       function SetProp<PN extends keyof P>(
         propName: PN,
@@ -63,5 +63,5 @@ export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
     };
   }, []);
 
-  return _self;
+  return self;
 }
