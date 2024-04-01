@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
 import DecksPage from "@/pages/index";
 import CreateDeck from "./pages/create_deck";
+import DeckPage from "./pages/deck/index";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,12 @@ const router = createBrowserRouter([
     Component: DecksPage
   },
   {
-    path: "/create-deck",
+    path: "create-deck",
     Component: CreateDeck
+  },
+  {
+    path: "deck/:deckId",
+    Component: DeckPage
   }
 ]);
 

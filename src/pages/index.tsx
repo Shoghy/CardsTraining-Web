@@ -41,7 +41,7 @@ export default function DecksPage(){
           <ListEnumerator
             data={decks}
             renderItem={({item}) => <DeckButton deck={item} />}
-            emptyListElement={<h1>Hola mundo</h1>}
+            emptyListElement={<h1>You don't have any decks</h1>}
             keyStractor={({item}) => item.id}
           />
         </div>
