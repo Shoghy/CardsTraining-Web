@@ -24,6 +24,7 @@ export default function CreateDeck() {
           deck.lastTimePracticed = null;
         });
     });
+    setDeckName("");
   }
 
   return (
@@ -41,7 +42,7 @@ export default function CreateDeck() {
           value={deckName}
           onChange={(e) => setDeckName(e.currentTarget.value)}
           className={styles.input}
-          maxLength={50}
+          maxLength={100}
         />
         <div className={styles.btnContainer}>
           <BasicButton
