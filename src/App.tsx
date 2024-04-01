@@ -9,11 +9,16 @@ import CardRecordModel from "./model/CardRecordModel";
 import { useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
 import DecksPage from "@/pages/index";
+import CreateDeck from "./pages/create_deck";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: DecksPage
+  },
+  {
+    path: "/create-deck",
+    Component: CreateDeck
   }
 ]);
 

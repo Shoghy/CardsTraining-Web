@@ -7,10 +7,12 @@ import { AppContext } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 import ListEnumerator from "@/components/ListEnumerator";
 import DeckButton from "@/components/DeckButton";
+import { useNavigate } from "react-router-dom";
 
 export default function DecksPage(){
   const {localDB: {database}} = useContext(AppContext);
   const [decks, setDecks] = useState<DeckModel[]>([]);
+  const navigate = useNavigate();
 
   async function GetAllDecks(){
     const observer = database.
@@ -30,7 +32,7 @@ export default function DecksPage(){
     <div className={styles.backGround}>
       <div className={styles.header}>
         <span></span>
-        <BasicButton>
+        <BasicButton onClick={() => navigate("/create-deck")}>
           <FontAwesomeIcon icon={faPlusSquare} fontSize={"2.5em"} color="white"/>
         </BasicButton>
       </div>

@@ -2,15 +2,14 @@
   cursor: pointer;
   opacity: 1;
   transition: opacity 100ms, filter 50ms;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .button[data-disabled="true"]{
   opacity: 0.4;
   cursor: default;
-}
-
-.button[data-disabled="false"]:hover{
-  filter: contrast(0.7);
 }
 
 .button[data-disabled="false"]:active{
