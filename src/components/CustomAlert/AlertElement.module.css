@@ -1,0 +1,22 @@
+.alert{
+  max-width: 450px;
+  width: 100%;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.alertTitle{
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  border-bottom-width: 1px;
+  padding-bottom: 5px;
+}
+
+.alertMessage{
+  font-size: 1.3em;
+}

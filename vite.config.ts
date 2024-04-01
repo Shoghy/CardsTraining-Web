@@ -1,4 +1,4 @@
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import babel from "vite-plugin-babel";
@@ -10,7 +10,6 @@ export default () => {
       react(),
       tsconfigPaths(),
       babel(),
-      splitVendorChunkPlugin()
     ]
   });
 };
