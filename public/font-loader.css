@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Merienda';
+  src: local('Merienda'), url(./fonts/Merienda.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: local('Kalam'), url(./fonts/Kalam/Kalam-Regular.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  src: local('Kalam'), url(./fonts/Kalam/Kalam-Light.ttf) format('truetype');
+  font-weight: lighter;
+}
+@font-face {
+  font-family: 'Kalam';
+  src: local('Kalam'), url(./fonts/Kalam/Kalam-Bold.ttf) format('truetype');
+  font-weight: bold;
+}
