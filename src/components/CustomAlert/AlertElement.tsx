@@ -32,9 +32,13 @@ export default function AlertElemet({title, message, buttons}: AlertElementProps
       {
         message
         &&
-        <p className={styles.alertMessage}>
-          {message}
-        </p>
+        <div className={styles.alertMessage}>
+          <div>
+            <span>
+              {message}
+            </span>
+          </div>
+        </div>
       }
       {
         buttons
