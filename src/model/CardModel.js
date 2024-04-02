@@ -33,7 +33,7 @@ export default class CardModel extends Model{
   @field("timesWrong") timesWrong;
 
   /**@type {import("@nozbe/watermelondb").Relation<import("./DeckModel").default>} */
-  @immutableRelation("decks", "deckUID") deckUID;
+  @immutableRelation("decks", "deckUID") deck;
 
   /**@type {import("@nozbe/watermelondb").Query<import("./CardRecordModel").default>} */
   @children("cardsRecords") cardsRecords;
