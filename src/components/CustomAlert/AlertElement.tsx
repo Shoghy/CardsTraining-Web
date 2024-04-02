@@ -1,8 +1,10 @@
+import BasicButton from "../BasicButton";
+import ListEnumerator from "../ListEnumerator";
 import styles from "./AlertElement.module.css";
 
 export interface AlertButton{
   text: string
-  onClick: (closeAlert: () => void) => unknown
+  onClick: () => unknown
 }
 
 export interface AlertElementProps{
@@ -11,7 +13,19 @@ export interface AlertElementProps{
   buttons?: AlertButton[]
 }
 
-export default function AlertElemet({title, message}: AlertElementProps){
+export default function AlertElemet({title, message, buttons}: AlertElementProps){
+
+  function ButtonRenderer({item}: {item: AlertButton, index: number}){
+    return (
+      <BasicButton
+        onClick={() => item.onClick()}
+        className={styles.alertButton}
+      >
+        {item.text}
+      </BasicButton>
+    );
+  }
+
   return (
     <div className={styles.alert}>
       <h1 className={styles.alertTitle}>{title}</h1>
@@ -21,6 +35,16 @@ export default function AlertElemet({title, message}: AlertElementProps){
         <p className={styles.alertMessage}>
           {message}
         </p>
+      }
+      {
+        buttons
+        &&
+        <div className={styles.alertFooter}>
+          <ListEnumerator
+            data={buttons}
+            renderItem={ButtonRenderer}
+          />
+        </div>
       }
     </div>
   );

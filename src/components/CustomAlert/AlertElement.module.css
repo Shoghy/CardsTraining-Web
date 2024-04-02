@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: stretch;
   gap: 10px;
+  position: relative;
 }
 
 .alertTitle{
@@ -19,4 +20,24 @@
 
 .alertMessage{
   font-size: 1.3em;
+}
+
+.alertFooter{
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+  border-top-style: solid;
+  border-top-color: black;
+  border-top-width: 1px;
+  padding-top: 10px;
+}
+
+.alertButton{
+  font-size: 0.85em;
+  background-color: rgba(0, 255, 255, 0.24);
+  padding: 5px 10px;
+  vertical-align: middle;
+  text-align: center;
 }

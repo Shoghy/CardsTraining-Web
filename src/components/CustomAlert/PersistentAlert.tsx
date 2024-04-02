@@ -1,8 +1,14 @@
 import ReactDOM from "react-dom/client";
 import AlertElemet, { AlertElementProps } from "./AlertElement";
 
-export interface PersistentAlertProps extends AlertElementProps{
+export interface PersistentAlertButton{
+  text: string
+  onClick: (closeAlert: () => void) => unknown
+}
+
+export interface PersistentAlertProps extends Omit<AlertElementProps, "buttons">{
   dissmesable?: boolean
+  buttons?: PersistentAlertButton[]
 }
 
 export default function PersistentAlert(
@@ -36,7 +42,7 @@ export default function PersistentAlert(
 
   root.render(
     <AlertElemet
-      buttons={buttons}
+      buttons={buttons as never}
       {...props}
     />
   );
