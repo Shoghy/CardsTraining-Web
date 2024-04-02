@@ -10,14 +10,15 @@ export interface PersistentAlertProps extends Omit<AlertElementProps, "buttons" 
   dissmesable?: boolean
   buttons?: PersistentAlertButton[]
   xButton?: (closeAlert: () => void) => unknown
+  xButtonClose?: boolean
 }
 
 export default function PersistentAlert(
-  {dissmesable, buttons, xButton, ...props}: PersistentAlertProps
+  {dissmesable, buttons, xButton, xButtonClose = true, ...props}: PersistentAlertProps
 ){
   const mprops: AlertElementProps = props;
   const backGround = document.createElement("div");
-  backGround.classList.add("persistentAlert");
+  backGround.classList.add("alertBackground");
   document.body.appendChild(backGround);
 
   const root = ReactDOM.createRoot(backGround);
@@ -25,6 +26,10 @@ export default function PersistentAlert(
   function CloseAlert(){
     root.unmount();
     backGround.remove();
+  }
+
+  if(xButtonClose){
+    mprops.xButton = () => CloseAlert();
   }
 
   if(xButton){
