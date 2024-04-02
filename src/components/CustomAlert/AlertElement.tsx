@@ -61,7 +61,10 @@ export default function AlertElemet({
       {
         xButton
         &&
-        <BasicButton className={styles.alertXButton}>
+        <BasicButton
+          className={styles.alertXButton}
+          onClick={() => xButton()}
+        >
           <FontAwesomeIcon icon={faTimes}/>
         </BasicButton>
       }

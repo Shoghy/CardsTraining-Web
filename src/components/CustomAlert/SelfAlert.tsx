@@ -54,11 +54,11 @@ export default function SelfAlert(){
       self.toggle = () => setIsOpen(!isOpen);
 
       self.openWith = (prop) => {
-        self.setIsOpen(true);
-        self.setTitle(prop.title);
-        self.setMessage(prop.message);
-        self.setButtons(prop.buttons);
-        self.open();
+        setXButton(() => prop.xButton);
+        setTitle(() => prop.title);
+        setMessage(() => prop.message);
+        setButtons(() => prop.buttons);
+        setIsOpen(() => true);
       };
 
       if(!isOpen) return <></>;
