@@ -9,7 +9,7 @@ import ListEnumerator from "@/components/ListEnumerator";
 import DeckButton from "@/components/DeckButton";
 import { useNavigate } from "react-router-dom";
 
-export default function DecksPage(){
+export default function DeckSelector(){
   const {localDB: {database}} = useContext(AppContext);
   const [decks, setDecks] = useState<DeckModel[]>([]);
   const navigate = useNavigate();

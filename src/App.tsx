@@ -8,23 +8,33 @@ import CardModel from "./model/CardModel";
 import CardRecordModel from "./model/CardRecordModel";
 import { useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
-import DecksPage from "@/pages/index";
+import DeckSelector from "@/pages/index";
 import CreateDeck from "./pages/create_deck";
 import DeckPage from "./pages/deck/index";
+import CardsManager from "./pages/deck/manage_cards";
+import CreateCard from "./pages/deck/create_card";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: DecksPage
+    Component: DeckSelector,
   },
   {
     path: "create-deck",
-    Component: CreateDeck
+    Component: CreateDeck,
   },
   {
     path: "deck/:deckId",
-    Component: DeckPage
-  }
+    Component: DeckPage,
+  },
+  {
+    path: "deck/:deckId/manage-cards",
+    Component: CardsManager,
+  },
+  {
+    path: "deck/:deckId/create-card",
+    Component: CreateCard,
+  },
 ]);
 
 export default function App() {

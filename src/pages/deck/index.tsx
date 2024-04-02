@@ -51,7 +51,10 @@ export default function DeckPage() {
       >
         Practices statistics
       </BasicButton>
-      <BasicButton className={styles.btn}>
+      <BasicButton
+        className={styles.btn}
+        onClick={() => navigate("manage-cards")}
+      >
         Manage cards
       </BasicButton>
       <BasicButton
