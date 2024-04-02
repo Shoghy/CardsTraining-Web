@@ -1,6 +1,8 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BasicButton from "../BasicButton";
 import ListEnumerator from "../ListEnumerator";
 import styles from "./AlertElement.module.css";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export interface AlertButton{
   text: string
@@ -11,9 +13,15 @@ export interface AlertElementProps{
   title: string
   message?: string
   buttons?: AlertButton[]
+  xButton?: () => unknown
 }
 
-export default function AlertElemet({title, message, buttons}: AlertElementProps){
+export default function AlertElemet({
+  title,
+  message,
+  buttons,
+  xButton,
+}: AlertElementProps){
 
   function ButtonRenderer({item}: {item: AlertButton, index: number}){
     return (
@@ -49,6 +57,13 @@ export default function AlertElemet({title, message, buttons}: AlertElementProps
             renderItem={ButtonRenderer}
           />
         </div>
+      }
+      {
+        xButton
+        &&
+        <BasicButton className={styles.alertXButton}>
+          <FontAwesomeIcon icon={faTimes}/>
+        </BasicButton>
       }
     </div>
   );

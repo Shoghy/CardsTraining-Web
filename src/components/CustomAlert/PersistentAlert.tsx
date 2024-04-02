@@ -6,14 +6,16 @@ export interface PersistentAlertButton{
   onClick: (closeAlert: () => void) => unknown
 }
 
-export interface PersistentAlertProps extends Omit<AlertElementProps, "buttons">{
+export interface PersistentAlertProps extends Omit<AlertElementProps, "buttons" | "xButton">{
   dissmesable?: boolean
   buttons?: PersistentAlertButton[]
+  xButton?: (closeAlert: () => void) => unknown
 }
 
 export default function PersistentAlert(
-  {dissmesable, buttons, ...props}: PersistentAlertProps
+  {dissmesable, buttons, xButton, ...props}: PersistentAlertProps
 ){
+  const mprops: AlertElementProps = props;
   const backGround = document.createElement("div");
   backGround.classList.add("persistentAlert");
   document.body.appendChild(backGround);
@@ -25,14 +27,21 @@ export default function PersistentAlert(
     backGround.remove();
   }
 
+  if(xButton){
+    mprops.xButton = () => {
+      xButton(CloseAlert);
+    };
+  }
+
   if(buttons){
+    mprops.buttons = [];
     for(let i = 0; i < buttons.length; ++i){
       const btn = buttons[i];
-      const func = btn.onClick;
 
-      btn.onClick = () => {
-        func(CloseAlert);
-      };
+      mprops.buttons.push({
+        text: btn.text,
+        onClick: () => btn.onClick(CloseAlert)
+      });
     }
   }
 
@@ -42,8 +51,7 @@ export default function PersistentAlert(
 
   root.render(
     <AlertElemet
-      buttons={buttons as never}
-      {...props}
+      {...mprops}
     />
   );
 }

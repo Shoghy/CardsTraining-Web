@@ -26,6 +26,7 @@
   div{
     overflow-y: auto;
     max-height: 350px;
+    padding: 5px 0;
   }
 }
 
@@ -47,4 +48,20 @@
   padding: 5px 10px;
   vertical-align: middle;
   text-align: center;
+}
+
+.alertXButton{
+  --w: 40px;
+  width: var(--w);
+  position: absolute;
+  right: calc(var(--w)/-2);
+  top: calc(var(--w)/-2);
+  background-color: red;
+  color: white;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 1.2em;
 }
