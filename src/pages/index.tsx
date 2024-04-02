@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./index.module.css";
+import styles from "@/assets/css/pages/index.module.css";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons/faPlusSquare";
 import BasicButton from "@/components/BasicButton";
 import { useContext, useEffect, useState } from "react";

@@ -3,7 +3,7 @@ import BasicButton from "./BasicButton";
 import moment from "moment";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./DeckButton.module.css";
+import styles from "@/assets/css/components/DeckButton.module.css";
 import EllipsisText from "./EllipsisText";
 
 export default function DeckButton({ deck: {

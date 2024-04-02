@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BasicButton from "../BasicButton";
 import ListEnumerator from "../ListEnumerator";
-import styles from "./AlertElement.module.css";
+import styles from "@/assets/css/components/AlertElement.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export interface AlertButton{

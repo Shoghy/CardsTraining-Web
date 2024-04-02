@@ -18,7 +18,7 @@ export function SelfComponent<
   C extends (props: P) => React.JSX.Element
 >(component: C): SelfComponentReturn<P>;
 
-export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
+export function SelfComponent<P, C>(
   Component: C
 ){
   const self: SelfComponentReturn<P> = useMemo(() => {
@@ -51,7 +51,9 @@ export function SelfComponent<P, C extends (props: P) => React.JSX.Element>(
         });
       }
 
-      return <Component {...props}/>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const DElement: (props: any) => React.JSX.Element = Component as any;
+      return <DElement {...props}/>;
     }
 
     return {

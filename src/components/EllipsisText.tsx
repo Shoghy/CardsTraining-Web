@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./EllipsisText.module.css";
+import styles from "@/assets/css/components/EllipsisText.module.css";
 
 interface EllipsisTextProps extends React.HTMLAttributes<HTMLDivElement>{
   children?: string

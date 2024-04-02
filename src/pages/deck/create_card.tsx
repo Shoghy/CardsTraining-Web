@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import styles from "./create_card.module.css";
+import styles from "@/assets/css/pages/create_card.module.css";
 import BasicButton from "@/components/BasicButton";
 import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

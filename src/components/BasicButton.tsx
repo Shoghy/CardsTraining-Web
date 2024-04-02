@@ -1,4 +1,4 @@
-import styles from "./BasicButton.module.css";
+import styles from "@/assets/css/components/BasicButton.module.css";
 
 export interface BasicButtonProps extends React.HTMLAttributes<HTMLDivElement>{
   disabled?: boolean

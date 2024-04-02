@@ -1,7 +1,7 @@
 import BasicButton from "@/components/BasicButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router-dom";
-import styles from "./manage_cards.module.css";
+import styles from "@/assets/css/pages/manage_cards.module.css";
 import ListEnumerator from "@/components/ListEnumerator";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
