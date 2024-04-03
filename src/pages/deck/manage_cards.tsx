@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import CardModel from "@/model/CardModel";
 import { AppContext } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
+import CardButton from "@/components/CardButton";
 
 export default function CardsManager(){
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export default function CardsManager(){
         <div className={styles.cardContainer}>
           <ListEnumerator
             data={cards}
-            renderItem={({item}) => <div>{item.statement}</div>}
+            renderItem={({item}) => <CardButton card={item}/>}
             emptyListElement={<h1>You don't have any cards in this deck</h1>}
             keyStractor={({item}) => item.id}
           />

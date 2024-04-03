@@ -1,0 +1,33 @@
+.backGround{
+  width: 100%;
+  aspect-ratio: 1 !important;
+  background-color: white;
+  border-radius: 10px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  gap: 5px;
+}
+
+.answer, .statement{
+  font-size: 1.3em;
+  max-height: 50%;
+}
+
+.statement{
+  font-weight: bold;
+}
+
+.practiceInfo{
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  span:first-child{
+    color: red;
+  }
+  span:last-child{
+    color: rgb(0, 168, 0);
+  }
+}
