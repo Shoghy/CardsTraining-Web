@@ -40,3 +40,13 @@
   background-color: rgb(255, 136, 0);
   color: black;
 }
+
+.red{
+  border-color: red;
+  color: red;
+  background-color: rgba(255, 0, 0, 0.35);
+}
+.red[data-disabled="false"]:hover{
+  background-color: red;
+  color: white;
+}
