@@ -8,10 +8,10 @@
 }
 
 .button[data-disabled="true"]{
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: default;
 }
 
 .button[data-disabled="false"]:active{
-  opacity: 0.2;
+  opacity: 0.5;
 }
