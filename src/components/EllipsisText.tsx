@@ -6,7 +6,7 @@ interface EllipsisTextProps extends React.HTMLAttributes<HTMLDivElement>{
 }
 
 export default function EllipsisText({
-  children,
+  children, style,
   ...props
 }: EllipsisTextProps){
   const [text, setText] = useState<string | undefined>("\xa0");
@@ -15,10 +15,9 @@ export default function EllipsisText({
 
   function CalculateLineClamp(){
     const div = divRef.current;
-    if(!div) return;
+    div.style.webkitLineClamp = "unset";
 
     const parent = div.parentElement! as HTMLDivElement;
-    parent.onresize = () => CalculateLineClamp();
 
     const clampTo = Math.floor(parent.clientHeight/lineHeight.current);
     div.style.webkitLineClamp = clampTo.toString();
@@ -34,9 +33,13 @@ export default function EllipsisText({
     const sizeObserver = new ResizeObserver(() => CalculateLineClamp());
 
     sizeObserver.observe(parent);
-    CalculateLineClamp();
 
     setText(children);
+
+    //Waiting for the re-render
+    setTimeout(() => {
+      CalculateLineClamp();
+    }, 1);
     return () => {
       sizeObserver.disconnect();
     };
@@ -45,6 +48,7 @@ export default function EllipsisText({
   return (
     <div
       {...props}
+      style={{...{overflow: "hidden"}, ...style}}
     >
       <div
         ref={divRef}
