@@ -1,0 +1,40 @@
+.backGround{
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.cardForm{
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 15px;
+}
+
+.cardField{
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  label{
+    font-size: 1.3em;
+    font-weight: bold;
+  }
+  input, textarea{
+    font-size: 1.2em;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 10px;
+    padding: 8px;
+    resize: none;
+  }
+}
+
+.cardFooter{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

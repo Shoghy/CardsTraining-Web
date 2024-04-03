@@ -1,0 +1,52 @@
+.btn{
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 15px;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 1.3em;
+  gap: 2px;
+  transition: background-color 150ms, color 150ms;
+}
+
+.blue{
+  border-color: rgb(13, 110, 253);
+  color: rgb(13, 110, 253);
+  background-color: rgba(13, 110, 253, 0.35);
+}
+.blue[data-disabled="false"]:hover{
+  background-color: rgb(13, 110, 253);
+  color: white;
+}
+
+.green{
+  border-color: rgb(0, 128, 0);
+  color: rgb(0, 128, 0);
+  background-color: rgba(0, 128, 0, 0.35);
+}
+.green[data-disabled="false"]:hover{
+  background-color: rgb(0, 128, 0);
+  color: white;
+}
+
+.yellow{
+  border-color: rgb(255, 136, 0);
+  color: rgb(255, 136, 0);
+  background-color: rgba(255, 136, 0, 0.35);
+}
+.yellow[data-disabled="false"]:hover{
+  background-color: rgb(255, 136, 0);
+  color: black;
+}
+
+.red{
+  border-color: red;
+  color: red;
+  background-color: rgba(255, 0, 0, 0.35);
+}
+.red[data-disabled="false"]:hover{
+  background-color: red;
+  color: white;
+}

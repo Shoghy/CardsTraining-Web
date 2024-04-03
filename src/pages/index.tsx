@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./index.module.css";
+import styles from "@/assets/css/pages/index.module.css";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons/faPlusSquare";
 import BasicButton from "@/components/BasicButton";
 import { useContext, useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import ListEnumerator from "@/components/ListEnumerator";
 import DeckButton from "@/components/DeckButton";
 import { useNavigate } from "react-router-dom";
 
-export default function DecksPage(){
+export default function DeckSelector(){
   const {localDB: {database}} = useContext(AppContext);
   const [decks, setDecks] = useState<DeckModel[]>([]);
   const navigate = useNavigate();

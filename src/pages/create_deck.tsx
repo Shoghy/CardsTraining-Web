@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import styles from "./create_deck.module.css";
+import styles from "@/assets/css/pages/create_deck.module.css";
 import BasicButton from "@/components/BasicButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
@@ -13,12 +13,13 @@ export default function CreateDeck() {
   const [deckName, setDeckName] = useState("");
 
   async function SaveAction() {
-    if(!deckName) return;
+    const name = deckName.trim();
+    if(!name) return;
 
     await database.write(async () => {
       await database.get<DeckModel>(DeckModel.table)
         .create((deck) => {
-          deck.name = deckName;
+          deck.name = name;
           deck.amountOfCards = 0;
           deck.imgURL = null;
           deck.lastTimePracticed = null;
@@ -42,7 +43,6 @@ export default function CreateDeck() {
           value={deckName}
           onChange={(e) => setDeckName(e.currentTarget.value)}
           className={styles.input}
-          maxLength={100}
         />
         <div className={styles.btnContainer}>
           <BasicButton

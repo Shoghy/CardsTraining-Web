@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AlertElemet, { AlertButton, AlertElementProps } from "./AlertElement";
 
 export interface SelfAlertObject{
@@ -31,35 +31,39 @@ export default function SelfAlert(){
     function Element(){
       const [title, setTitle] = useState(self.title);
       self.title = title;
-      self.setTitle = setTitle;
 
       const [message, setMessage] = useState(self.message);
       self.message = message;
-      self.setMessage = setMessage;
 
       const [buttons, setButtons] = useState(self.buttons);
       self.buttons = buttons;
-      self.setButtons = setButtons;
 
       const [xButton, setXButton] = useState<(() => unknown) | undefined>(self.xButton);
       self.xButton = xButton;
-      self.setXButton = setXButton;
 
       const [isOpen, setIsOpen] = useState(self.isOpen);
       self.isOpen = isOpen;
-      self.setIsOpen = setIsOpen;
 
-      self.open = () => setIsOpen(true);
-      self.close = () => setIsOpen(false);
-      self.toggle = () => setIsOpen(!isOpen);
+      useEffect(() => {
+        self.setTitle = setTitle;
+        self.setMessage = setMessage;
+        self.setButtons = setButtons;
+        self.setXButton = setXButton;
+        self.setIsOpen = setIsOpen;
 
-      self.openWith = (prop) => {
-        self.setIsOpen(true);
-        self.setTitle(prop.title);
-        self.setMessage(prop.message);
-        self.setButtons(prop.buttons);
-        self.open();
-      };
+        self.open = () => setIsOpen(true);
+        self.close = () => setIsOpen(false);
+        self.toggle = () => setIsOpen((c) => !c);
+
+        self.openWith = (prop) => {
+          setXButton(() => prop.xButton);
+          setTitle(() => prop.title);
+          setMessage(() => prop.message);
+          setButtons(() => prop.buttons);
+          setIsOpen(() => true);
+        };
+      }, []);
+
 
       if(!isOpen) return <></>;
 

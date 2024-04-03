@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import styles from "./index.module.css";
+import styles from "@/assets/css/pages/deck.module.css";
 import BasicButton from "@/components/BasicButton";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/utils/AppContext";
@@ -51,7 +51,10 @@ export default function DeckPage() {
       >
         Practices statistics
       </BasicButton>
-      <BasicButton className={styles.btn}>
+      <BasicButton
+        className={styles.btn}
+        onClick={() => navigate("manage-cards")}
+      >
         Manage cards
       </BasicButton>
       <BasicButton
