@@ -3,6 +3,7 @@ import BasicButton from "../BasicButton";
 import ListEnumerator from "../ListEnumerator";
 import styles from "@/assets/css/components/AlertElement.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import StyledButton from "../StyledButton";
 
 export interface AlertButton{
   text: string
@@ -25,12 +26,12 @@ export default function AlertElemet({
 
   function ButtonRenderer({item}: {item: AlertButton, index: number}){
     return (
-      <BasicButton
+      <StyledButton
         onClick={() => item.onClick()}
         className={styles.alertButton}
       >
         {item.text}
-      </BasicButton>
+      </StyledButton>
     );
   }
 

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "@/assets/css/pages/create_card.module.css";
-import BasicButton from "@/components/BasicButton";
-import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleLeft, faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router-dom";
 import SelfAlert from "@/components/CustomAlert/SelfAlert";
@@ -9,6 +8,7 @@ import { AppContext } from "@/utils/AppContext";
 import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { sleep } from "@/utils/functions";
+import StyledButton from "../../components/StyledButton";
 
 interface CardFillableData{
   statement: string
@@ -107,7 +107,7 @@ export default function CreateCard() {
     alert.close();
   }
 
-  async function SaveAction() {
+  function SaveAction() {
     const tStatement = statement.trim();
     const tAnswer = answer.trim();
     const tDescription = description.trim();
@@ -139,6 +139,31 @@ export default function CreateCard() {
       description: tDescription,
       hint: tHint,
     });
+  }
+
+  async function DeleteCard(){
+    if(!cardId){
+      throw new Error("You shouldn't see this");
+    }
+
+    const card = await database.get<CardModel>(CardModel.table).find(cardId);
+    const deck = await card.deck;
+
+    await database.write(async () => {
+      await card.markAsDeleted();
+      await deck.update(deck => {
+        deck.amountOfCards -= 1;
+      });
+    });
+
+    alert.openWith({
+      title: "Success",
+      message: "Card deleted successfully",
+    });
+
+    await sleep(2500);
+
+    navigate(`/deck/${deckId}/manage-cards`);
   }
 
   useEffect(() => {
@@ -204,8 +229,8 @@ export default function CreateCard() {
           />
         </div>
         <div className={styles.cardFooter}>
-          <BasicButton
-            className={`${styles.btn} ${styles.btnBack}`}
+          <StyledButton
+            look="yellow"
             onClick={() => navigate(`/deck/${deckId}/manage-cards`)}
           >
             <FontAwesomeIcon
@@ -213,9 +238,35 @@ export default function CreateCard() {
               fontSize="0.7em"
             />
             Back
-          </BasicButton>
-          <BasicButton
-            className={`${styles.btn} ${styles.btnSave}`}
+          </StyledButton>
+          {
+            cardId
+            &&
+            <StyledButton
+              look="red"
+              onClick={
+                () => alert.openWith({
+                  title: "Are you sure?",
+                  message: "Do you really want to delete this card?",
+                  xButton: () => {
+                    alert.close();
+                  },
+                  buttons: [{
+                    text: "Yes",
+                    onClick: DeleteCard
+                  }]
+                })
+              }
+            >
+              <FontAwesomeIcon
+                icon={faTrash}
+                fontSize="0.7em"
+              />
+              Delete
+            </StyledButton>
+          }
+          <StyledButton
+            look="green"
             onClick={() => SaveAction()}
           >
             <FontAwesomeIcon
@@ -223,7 +274,7 @@ export default function CreateCard() {
               fontSize="0.7em"
             />
             Save
-          </BasicButton>
+          </StyledButton>
         </div>
       </div>
       <alert.Element />

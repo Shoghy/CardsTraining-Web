@@ -38,27 +38,3 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
-.btn{
-  border-style: solid;
-  border-width: 2px;
-  padding: 5px 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 1.3em;
-  gap: 2px;
-}
-
-.btnBack{
-  border-color: rgb(255, 136, 0);
-  color: rgb(255, 136, 0);
-  background-color: rgba(255, 136, 0, 0.35);
-}
-
-.btnSave{
-  border-color: green;
-  color: green;
-  background-color: rgba(0, 128, 0, 0.35);
-}
