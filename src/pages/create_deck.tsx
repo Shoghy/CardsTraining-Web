@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styles from "@/assets/css/pages/create_deck.module.css";
-import BasicButton from "@/components/BasicButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
+import StyledButton from "../components/StyledButton";
 
 export default function CreateDeck() {
   const navigate = useNavigate();
@@ -45,8 +45,8 @@ export default function CreateDeck() {
           className={styles.input}
         />
         <div className={styles.btnContainer}>
-          <BasicButton
-            className={`${styles.btn} ${styles.btnBack}`}
+          <StyledButton
+            look="yellow"
             onClick={() => navigate("/")}
           >
             <FontAwesomeIcon
@@ -54,8 +54,9 @@ export default function CreateDeck() {
               fontSize="0.7em"
             />
             Back
-          </BasicButton>
-          <BasicButton
+          </StyledButton>
+          <StyledButton
+            look="green"
             className={`${styles.btn} ${styles.btnSave}`}
             onClick={() => SaveAction()}
           >
@@ -64,7 +65,7 @@ export default function CreateDeck() {
               fontSize="0.7em"
             />
             Save
-          </BasicButton>
+          </StyledButton>
         </div>
       </div>
     </div>
