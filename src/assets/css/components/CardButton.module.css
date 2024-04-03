@@ -10,7 +10,7 @@
   gap: 5px;
 }
 
-.answer, .statement{
+.description, .statement{
   font-size: 1.3em;
   max-height: 50%;
 }

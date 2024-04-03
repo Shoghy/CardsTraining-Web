@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "@/assets/css/pages/create_card.module.css";
 import BasicButton from "@/components/BasicButton";
 import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
@@ -10,10 +10,18 @@ import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { sleep } from "@/utils/functions";
 
+interface CardFillableData{
+  statement: string
+  answer: string
+  description: string
+  hint: string
+}
+
 export default function CreateCard() {
   const navigate = useNavigate();
   const params = useParams();
   const deckId = params.deckId as string;
+  const cardId = params.cardId;
 
   const { localDB: { database } } = useContext(AppContext);
 
@@ -23,6 +31,81 @@ export default function CreateCard() {
   const [answer, setAnswer] = useState("");
   const [description, setDescription] = useState("");
   const [hint, setHint] = useState("");
+
+  function EmptyFields(){
+    setStatement("");
+    setAnswer("");
+    setDescription("");
+    setHint("");
+  }
+
+  async function CreateCard(kargs: CardFillableData){
+    const deck = await database
+      .get<DeckModel>(DeckModel.table)
+      .find(deckId);
+
+    await database.write(async () => {
+      await database.get<CardModel>(CardModel.table)
+        .create((card) => {
+          card.statement = kargs.statement;
+          card.answer = kargs.answer;
+          card.description = kargs.description;
+          card.hint = kargs.hint ? kargs.hint : null;
+          card.lastTimePracticed = null;
+          card.score = 0;
+          card.timesRight = 0;
+          card.timesWrong = 0;
+          card.deck.set(deck);
+        });
+
+      await deck.update((changes) => {
+        changes.amountOfCards += 1;
+      });
+    });
+
+    EmptyFields();
+
+    alert.openWith({
+      title: "Success",
+      message: "Card added successfully",
+      xButton: () => {
+        alert.close();
+      },
+    });
+
+    await sleep(2500);
+
+    alert.close();
+  }
+
+  async function UpdateCard(kargs: CardFillableData){
+    if(!cardId){
+      throw new Error("You shouldn't see this");
+    }
+
+    const card = await database.get<CardModel>(CardModel.table).find(cardId);
+
+    await database.write(async () => {
+      card.update((card) => {
+        card.statement = kargs.statement;
+        card.answer = kargs.answer;
+        card.description = kargs.description;
+        card.hint = kargs.hint ? kargs.hint : null;
+      });
+    });
+
+    alert.openWith({
+      title: "Success",
+      message: "Card updated successfully",
+      xButton: () => {
+        alert.close();
+      },
+    });
+
+    await sleep(2500);
+
+    alert.close();
+  }
 
   async function SaveAction() {
     const tStatement = statement.trim();
@@ -41,48 +124,33 @@ export default function CreateCard() {
       return;
     }
 
-    const deck = await database
-      .get<DeckModel>(DeckModel.table)
-      .find(deckId);
-
-    await database.write(async () => {
-      await database.get<CardModel>(CardModel.table)
-        .create((card) => {
-          card.statement = tStatement;
-          card.answer = tAnswer;
-          card.description = tDescription;
-          card.hint = tHint ? tHint : null;
-          card.lastTimePracticed = null;
-          card.score = 0;
-          card.timesRight = 0;
-          card.timesWrong = 0;
-          card.deck.set(deck);
-        });
-
-      await deck.update((changes) => {
-        changes.amountOfCards += 1;
+    if(!cardId){
+      CreateCard({
+        statement: tStatement,
+        answer: tAnswer,
+        description: tDescription,
+        hint: tHint,
       });
+      return;
+    }
+    UpdateCard({
+      statement: tStatement,
+      answer: tAnswer,
+      description: tDescription,
+      hint: tHint,
     });
-
-    setStatement("");
-    setAnswer("");
-    setDescription("");
-    setHint("");
-
-    alert.openWith({
-      title: "success",
-      message: "Card added successfully",
-      xButton: () => {
-        alert.close();
-      },
-    });
-
-    await sleep(2500);
-
-    if(!alert.isOpen) return;
-
-    alert.close();
   }
+
+  useEffect(() => {
+    if(cardId === undefined) return;
+    (async () => {
+      const card = await database.get<CardModel>(CardModel.table).find(cardId);
+      setStatement(card.statement);
+      setAnswer(card.answer);
+      setDescription(card.description);
+      setHint(card.hint ?? "");
+    })();
+  }, []);
 
   return (
     <div className={styles.backGround}>

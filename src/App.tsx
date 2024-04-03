@@ -35,6 +35,10 @@ const router = createBrowserRouter([
     path: "deck/:deckId/create-card",
     Component: CreateCard,
   },
+  {
+    path: "deck/:deckId/card/:cardId/edit",
+    Component: CreateCard,
+  },
 ]);
 
 export default function App() {
