@@ -2,15 +2,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "@/assets/css/pages/index.module.css";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons/faPlusSquare";
 import BasicButton from "@/components/BasicButton";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "@/utils/AppContext";
+import { useEffect, useState } from "react";
+import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 import ListEnumerator from "@/components/ListEnumerator";
 import DeckButton from "@/components/DeckButton";
 import { useNavigate } from "react-router-dom";
 
 export default function DeckSelector(){
-  const {localDB: {database}} = useContext(AppContext);
+  const database = useDatabase();
   const [decks, setDecks] = useState<DeckModel[]>([]);
   const navigate = useNavigate();
 

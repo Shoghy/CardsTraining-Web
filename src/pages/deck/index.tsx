@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "@/assets/css/pages/deck.module.css";
 import BasicButton from "@/components/BasicButton";
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "@/utils/AppContext";
+import { useEffect, useState } from "react";
+import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 
 export default function DeckPage() {
@@ -10,7 +10,7 @@ export default function DeckPage() {
   const params = useParams();
   const deckId = params.deckId as string;
 
-  const { localDB: { database } } = useContext(AppContext);
+  const database = useDatabase();
 
   const [hasCards, setHasCards] = useState(false);
 

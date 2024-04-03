@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "@/assets/css/pages/manage_cards.module.css";
 import ListEnumerator from "@/components/ListEnumerator";
 import { faChevronCircleLeft, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardModel from "@/model/CardModel";
-import { AppContext } from "@/utils/AppContext";
+import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 import CardButton from "@/components/CardButton";
 import StyledButton from "@/components/StyledButton";
@@ -16,7 +16,7 @@ export default function CardsManager() {
   const params = useParams();
   const deckId = params.deckId as string;
 
-  const { localDB: { database } } = useContext(AppContext);
+  const database = useDatabase();
 
   const [cards, setCards] = useState<CardModel[]>([]);
 

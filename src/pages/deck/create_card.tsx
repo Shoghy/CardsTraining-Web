@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/assets/css/pages/create_card.module.css";
 import { faChevronCircleLeft, faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router-dom";
 import SelfAlert from "@/components/CustomAlert/SelfAlert";
-import { AppContext } from "@/utils/AppContext";
+import { useDatabase } from "@/utils/AppContext";
 import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { sleep } from "@/utils/functions";
@@ -23,7 +23,7 @@ export default function CreateCard() {
   const deckId = params.deckId as string;
   const cardId = params.cardId;
 
-  const { localDB: { database } } = useContext(AppContext);
+  const database = useDatabase();
 
   const alert = SelfAlert();
 

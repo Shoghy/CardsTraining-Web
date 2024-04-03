@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "@/assets/css/pages/create_deck.module.css";
 import BasicButton from "@/components/BasicButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "@/utils/AppContext";
+import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 
 export default function CreateDeck() {
   const navigate = useNavigate();
-  const { localDB: { database } } = useContext(AppContext);
+  const database = useDatabase();
   const [deckName, setDeckName] = useState("");
 
   async function SaveAction() {
