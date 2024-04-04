@@ -10,6 +10,23 @@ export default () => {
       react(),
       tsconfigPaths(),
       babel(),
-    ]
+    ],
+    build:{
+      rollupOptions:{
+        output:{
+          manualChunks(id){
+            if(id.includes("@nozbe/watermelondb")){
+              return "watermelondb";
+            }
+            if(id.includes("@fortawesome")){
+              return "fortawesome";
+            }
+            if(id.includes("react-router-dom")){
+              return "react-router-dom";
+            }
+          }
+        }
+      }
+    }
   });
 };
