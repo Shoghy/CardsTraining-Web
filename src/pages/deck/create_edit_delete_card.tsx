@@ -21,12 +21,8 @@ export default function CreateCard() {
   } = manager;
 
   function AddAnswerAction(){
-    const length = answers.length;
     setAnswers((c) => {
-      if(length === c.length){
-        c.push("");
-      }
-      return [...c];
+      return [...c, ""];
     });
   }
 
@@ -40,12 +36,10 @@ export default function CreateCard() {
       }
 
       function Delete(){
-        const cant = count - 1;
         setAnswers((c) => {
-          if(c.length > cant){
-            c.splice(index, 1);
-          }
-          return [... c];
+          const copy = [...c];
+          copy.splice(index, 1);
+          return copy;
         });
       }
 
