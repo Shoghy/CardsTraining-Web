@@ -167,15 +167,29 @@ export default class CreateEditDeleteState{
     const tDescription = this.description.trim();
     const tHint = this.hint.trim();
 
-    if (!tStatement || !tAnswer || !tDescription) {
+    if (!tStatement || !tDescription) {
       this.alert.openWith({
         title: "Error",
-        message: "You must fill the statement, answer and description fields.",
+        message: "You must fill the statement and description fields.",
         xButton: () => {
           this.alert.close();
         },
       });
       return;
+    }
+
+    for(let i = 0; i < tAnswer.length; ++i){
+      const answer = tAnswer[i];
+      if(!answer){
+        this.alert.openWith({
+          title: "Error",
+          message: "All answer should be filled, remove the ones empty or add something to them.",
+          xButton: () => {
+            this.alert.close();
+          },
+        });
+        return;
+      }
     }
 
     if(!this.cardId){
