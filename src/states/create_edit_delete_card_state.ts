@@ -102,7 +102,7 @@ export default class CreateEditDeleteState{
           card.description = kargs.description;
           card.hint = kargs.hint ? kargs.hint : null;
           card.lastTimePracticed = null;
-          card.score = 0;
+          card.wasLastAnswerCorrect = null;
           card.timesRight = 0;
           card.timesWrong = 0;
           card.deck.set(deck);
