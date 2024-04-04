@@ -1,10 +1,15 @@
 import { Key } from "react";
 
+export interface FuncIteratorParams<T>{
+  item: T
+  index: number
+}
+
 export interface ListEnumeratorProps<T>{
   data: Array<T>
-  renderItem: (props: {item: T, index: number}) => React.JSX.Element
+  renderItem: (props: FuncIteratorParams<T>) => React.JSX.Element
   emptyListElement?: React.JSX.Element
-  keyStractor?: (props: {item: T, index: number}) => Key
+  keyStractor?: (props: FuncIteratorParams<T>) => Key
 }
 
 export default function ListEnumerator<T>({
