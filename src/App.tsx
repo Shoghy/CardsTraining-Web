@@ -12,7 +12,7 @@ import DeckSelector from "@/pages/index";
 import CreateDeck from "./pages/create_deck";
 import DeckPage from "./pages/deck/index";
 import CardsManager from "./pages/deck/manage_cards";
-import CreateCard from "./pages/deck/create_card";
+import CreateEditDeleteCard from "./pages/deck/create_edit_delete_card";
 
 const router = createBrowserRouter([
   {
@@ -33,11 +33,11 @@ const router = createBrowserRouter([
   },
   {
     path: "deck/:deckId/create-card",
-    Component: CreateCard,
+    Component: CreateEditDeleteCard,
   },
   {
     path: "deck/:deckId/card/:cardId/edit",
-    Component: CreateCard,
+    Component: CreateEditDeleteCard,
   },
 ]);
 
