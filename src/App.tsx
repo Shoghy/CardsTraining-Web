@@ -23,6 +23,10 @@ const router = createBrowserRouter([
     lazy: () => import("@/pages/deck"),
   },
   {
+    path: "deck/:deckId/normal-practice",
+    lazy: () => import("@/pages/deck/normal_practice"),
+  },
+  {
     path: "deck/:deckId/manage-cards",
     lazy: () => import("@/pages/deck/manage_cards"),
   },
