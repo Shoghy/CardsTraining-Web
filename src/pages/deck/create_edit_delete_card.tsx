@@ -1,22 +1,82 @@
-import styles from "@/assets/css/pages/create_card.module.css";
-import { faChevronCircleLeft, faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
+import styles from "@/assets/css/pages/create_edit_delete_card.module.css";
+import { faChevronCircleLeft, faFloppyDisk, faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StyledButton from "../../components/StyledButton";
 import CreateEditDeleteState from "@/states/create_edit_delete_card_state";
+import ListEnumerator, { FuncIteratorParams } from "@/components/ListEnumerator";
+import { useMemo } from "react";
 
 export default function CreateCard() {
   const manager = new CreateEditDeleteState();
   const {
     statement,
     setStatement,
-    answer,
-    setAnswer,
+    answers,
+    setAnswers,
     description,
     setDescription,
     hint,
     setHint,
     alert,
   } = manager;
+
+  function AddAnswerAction(){
+    const length = answers.length;
+    setAnswers((c) => {
+      if(length === c.length){
+        c.push("");
+      }
+      return [...c];
+    });
+  }
+
+  const RenderAnswers = useMemo(
+    () => function RA({ index, item, count }: FuncIteratorParams<string>) {
+      function setAnswer(value: string){
+        setAnswers((c) => {
+          c[index] = value;
+          return [... c];
+        });
+      }
+
+      function Delete(){
+        const cant = count - 1;
+        setAnswers((c) => {
+          if(c.length > cant){
+            c.splice(index, 1);
+          }
+          return [... c];
+        });
+      }
+
+      return (
+        <div className={styles.cardField}>
+          <label htmlFor="">
+          Answer ({index + 1}):
+          </label>
+          <div className={styles.answerInputContainer}>
+            <input
+              style={{flex: 1}}
+              type="text"
+              id="answer"
+              placeholder="Student"
+              value={item}
+              onChange={(e) => setAnswer(e.currentTarget.value)}
+            />
+            <StyledButton
+              look="red"
+              disabled={count === 1}
+              onClick={() => Delete()}
+            >
+              <FontAwesomeIcon
+                icon={faTrash}
+                fontSize="0.7em"
+              />
+            </StyledButton>
+          </div>
+        </div>
+      );
+    }, []);
 
   return (
     <div className={styles.backGround}>
@@ -33,18 +93,21 @@ export default function CreateCard() {
             onChange={(e) => setStatement(e.currentTarget.value)}
           />
         </div>
-        <div className={styles.cardField}>
-          <label htmlFor="answer">
-            Answer:
-          </label>
-          <input
-            type="text"
-            id="answer"
-            placeholder="Student|Learner"
-            value={answer}
-            onChange={(e) => setAnswer(e.currentTarget.value)}
+        <ListEnumerator
+          data={answers}
+          renderItem={RenderAnswers}
+        />
+        <StyledButton
+          look="green"
+          className={styles.addAnswerButton}
+          onClick={() => AddAnswerAction()}
+        >
+          <FontAwesomeIcon
+            icon={faPlusCircle}
+            fontSize="0.7em"
           />
-        </div>
+          Add answer
+        </StyledButton>
         <div className={styles.cardField}>
           <label htmlFor="description">
             Description:

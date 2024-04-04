@@ -18,8 +18,8 @@ export default class CreateEditDeleteState{
   readonly statement: string;
   readonly setStatement: React.Dispatch<React.SetStateAction<string>>;
 
-  readonly answer: string;
-  readonly setAnswer: React.Dispatch<React.SetStateAction<string>>;
+  readonly answers: string[];
+  readonly setAnswers: React.Dispatch<React.SetStateAction<string[]>>;
 
   readonly description: string;
   readonly setDescription: React.Dispatch<React.SetStateAction<string>>;
@@ -49,9 +49,9 @@ export default class CreateEditDeleteState{
     this.statement = statement;
     this.setStatement = setStatement;
 
-    const [answer, setAnswer] = useState("");
-    this.answer = answer;
-    this.setAnswer = setAnswer;
+    const [answer, setAnswer] = useState([""]);
+    this.answers = answer;
+    this.setAnswers = setAnswer;
 
     const [description, setDescription] = useState("");
     this.description = description;
@@ -71,7 +71,7 @@ export default class CreateEditDeleteState{
       (async () => {
         const card = await this.database.get<CardModel>(CardModel.table).find(cardId);
         setStatement(card.statement);
-        setAnswer(card.answer);
+        setAnswer(JSON.parse(card.answer));
         setDescription(card.description);
         setHint(card.hint ?? "");
       })();
@@ -80,7 +80,7 @@ export default class CreateEditDeleteState{
 
   EmptyFields(){
     this.setStatement("");
-    this.setAnswer("");
+    this.setAnswers([""]);
     this.setDescription("");
     this.setHint("");
   }
@@ -163,7 +163,7 @@ export default class CreateEditDeleteState{
 
   SaveAction() {
     const tStatement = this.statement.trim();
-    const tAnswer = this.answer.trim();
+    const tAnswer: string[] = this.answers.map((s) => s.trim());
     const tDescription = this.description.trim();
     const tHint = this.hint.trim();
 
@@ -181,7 +181,7 @@ export default class CreateEditDeleteState{
     if(!this.cardId){
       this.CreateCard({
         statement: tStatement,
-        answer: tAnswer,
+        answer: JSON.stringify(tAnswer),
         description: tDescription,
         hint: tHint,
       });
@@ -189,7 +189,7 @@ export default class CreateEditDeleteState{
     }
     this.UpdateCard({
       statement: tStatement,
-      answer: tAnswer,
+      answer: JSON.stringify(tAnswer),
       description: tDescription,
       hint: tHint,
     });

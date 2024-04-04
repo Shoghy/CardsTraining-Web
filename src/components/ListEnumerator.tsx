@@ -1,10 +1,16 @@
 import { Key } from "react";
 
+export interface FuncIteratorParams<T>{
+  item: T
+  index: number
+  count: number
+}
+
 export interface ListEnumeratorProps<T>{
   data: Array<T>
-  renderItem: (props: {item: T, index: number}) => React.JSX.Element
+  renderItem: (props: FuncIteratorParams<T>) => React.JSX.Element
   emptyListElement?: React.JSX.Element
-  keyStractor?: (props: {item: T, index: number}) => Key
+  keyStractor?: (props: FuncIteratorParams<T>) => Key
 }
 
 export default function ListEnumerator<T>({
@@ -19,7 +25,8 @@ export default function ListEnumerator<T>({
     if(keyStractor){
       return keyStractor({
         index,
-        item
+        item,
+        count: data.length,
       });
     }
     return index;
@@ -33,6 +40,7 @@ export default function ListEnumerator<T>({
         key={getKey(data[i], i)}
         index={i}
         item={data[i]}
+        count={data.length}
       />
     );
   }
