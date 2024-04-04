@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 
-export default function DeckPage() {
+export function Component() {
   const navigate = useNavigate();
   const params = useParams();
   const deckId = params.deckId as string;

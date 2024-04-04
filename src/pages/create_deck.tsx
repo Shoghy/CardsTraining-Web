@@ -7,7 +7,7 @@ import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 import StyledButton from "../components/StyledButton";
 
-export default function CreateDeck() {
+export function Component() {
   const navigate = useNavigate();
   const database = useDatabase();
   const [deckName, setDeckName] = useState("");
