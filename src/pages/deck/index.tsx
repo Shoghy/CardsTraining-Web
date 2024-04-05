@@ -30,6 +30,7 @@ export function Component() {
       <BasicButton
         className={styles.btn}
         disabled={!hasCards}
+        onClick={() => navigate(`/deck/${deckId}/normal-practice`)}
       >
         Normal Practice
       </BasicButton>

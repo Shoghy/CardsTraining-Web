@@ -1,14 +1,29 @@
 import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { useDatabase } from "@/utils/AppContext";
+import { RandomFloat } from "@/utils/random";
 import { Database } from "@nozbe/watermelondb";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { Params, useParams } from "react-router-dom";
+
+interface CardAndPosibility{
+  card: CardModel
+  posibility: number
+}
+
+export enum State{
+  LOADING,
+  READY,
+}
 
 const MAX_CARDS_PER_PRACTICE = 15;
 export class NormalPracticeState{
   readonly cards: CardModel[];
   readonly setCards: React.Dispatch<React.SetStateAction<CardModel[]>>;
+
+  readonly state: State;
+  readonly setState: React.Dispatch<React.SetStateAction<State>>;
 
   readonly database: Database;
 
@@ -26,6 +41,10 @@ export class NormalPracticeState{
     this.cards = cards;
     this.setCards = setCards;
 
+    const [state, setState] = useState(State.LOADING);
+    this.state = state;
+    this.setState = setState;
+
     useEffect(() => {
       this.LoadCards();
     }, []);
@@ -36,8 +55,10 @@ export class NormalPracticeState{
       .get<DeckModel>(DeckModel.table)
       .find(this.deckId);
 
+    const cardAndPosibility: CardAndPosibility[] = [];
     const selectedCards: CardModel[] = [];
     const allCards = await deck.cards;
+    let maxPosibilityNumber = 0;
     for(
       let i = 0;
 
@@ -49,25 +70,61 @@ export class NormalPracticeState{
     ){
       const card = allCards[i];
 
-      if(card.wasLastAnswerCorrect === null){
+      if(
+        card.wasLastAnswerCorrect === null
+        ||
+        card.lastTimePracticed === null
+      ){
         selectedCards.push(card);
         continue;
       }
-      /**
-       * Here will go some math funtions that, will
-       * depending on the timesRight, timesWrong,
-       * lastTimePracticed and wasLastAnswerCorrect
-       * give the card a probability of being selected.
-       * This probability should be higher if the user
-       * has a lot of time without practicing the card
-       * or the higher timesWrong is the higher the probability.
-       * If wasLastAnswerCorrect is false, I think I will just
-       * add a constant number to the probability, I also need
-       * to do something with timesRight, so it just don't depend
-       * on timesWrong.
-       */
+
+      const total = card.timesRight + card.timesWrong;
+      let posibility = 5;
+      posibility += (card.timesWrong/total) * 200;
+
+      const now = moment().utcOffset(0);
+      const timePassed = now.diff(card.lastTimePracticed);
+      posibility += timePassed/(1000 * 60 * 60);
+
+      if(!card.wasLastAnswerCorrect){
+        posibility += 40;
+      }
+
+      maxPosibilityNumber += posibility;
+
+      cardAndPosibility.push({
+        card,
+        posibility,
+      });
+    }
+
+    let randomNumber = RandomFloat(Number.EPSILON, maxPosibilityNumber);
+    let currentValue = 0;
+    for(
+      let index = 0;
+
+      index < cardAndPosibility.length
+      &&
+      selectedCards.length < MAX_CARDS_PER_PRACTICE;
+
+      ++index
+    ){
+      const data = cardAndPosibility[index];
+      currentValue += data.posibility;
+
+      if(currentValue < randomNumber) continue;
+
+      selectedCards.push(data.card);
+      cardAndPosibility.splice(index, 0);
+
+      index = -1;
+      maxPosibilityNumber -= data.posibility;
+      randomNumber = RandomFloat(Number.EPSILON, maxPosibilityNumber);
+      currentValue = 0;
     }
 
     this.setCards(selectedCards);
+    this.setState(State.READY);
   }
 }
