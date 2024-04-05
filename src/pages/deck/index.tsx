@@ -38,18 +38,6 @@ export function Component() {
         className={styles.btn}
         disabled={!hasCards}
       >
-        Practice against time
-      </BasicButton>
-      <BasicButton
-        className={styles.btn}
-        disabled={!hasCards}
-      >
-        Custom practice
-      </BasicButton>
-      <BasicButton
-        className={styles.btn}
-        disabled={!hasCards}
-      >
         Practices statistics
       </BasicButton>
       <BasicButton

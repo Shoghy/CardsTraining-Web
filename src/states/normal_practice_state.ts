@@ -1,10 +1,11 @@
 import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { useDatabase } from "@/utils/AppContext";
+import { textSimilarity } from "@/utils/functions";
 import { RandomFloat } from "@/utils/random";
 import { Database } from "@nozbe/watermelondb";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Params, useParams } from "react-router-dom";
 
 interface CardAndPosibility{
@@ -14,16 +15,21 @@ interface CardAndPosibility{
 
 export enum State{
   LOADING,
-  READY,
+  AWAITING_ANSWER,
+  ANSWERED,
 }
 
 const MAX_CARDS_PER_PRACTICE = 15;
 export class NormalPracticeState{
   readonly cards: CardModel[];
   readonly setCards: React.Dispatch<React.SetStateAction<CardModel[]>>;
+  readonly card: CardModel;
 
   readonly state: State;
   readonly setState: React.Dispatch<React.SetStateAction<State>>;
+
+  answer: string;
+  setAnswer: React.Dispatch<React.SetStateAction<string>>;
 
   readonly database: Database;
 
@@ -44,6 +50,12 @@ export class NormalPracticeState{
     const [state, setState] = useState(State.LOADING);
     this.state = state;
     this.setState = setState;
+
+    const [answer, setAnswer] = useState("");
+    this.answer = answer;
+    this.setAnswer = setAnswer;
+
+    this.card = useMemo(() => this.cards[0], [this.cards]);
 
     useEffect(() => {
       this.LoadCards();
@@ -125,6 +137,32 @@ export class NormalPracticeState{
     }
 
     this.setCards(selectedCards);
-    this.setState(State.READY);
+    this.setState(State.AWAITING_ANSWER);
+  }
+
+  OnAnswer(){
+    const {
+      answer,
+      card,
+    } = this;
+
+    const answers: string[] = JSON.parse(card.answer);
+
+    for(let i = 0; i < answers.length; ++i){
+      const ans = answers[i];
+
+      if(ans === answer){
+        //Correct
+        return;
+      }
+
+      if(ans.length < 5) continue;
+
+      if(textSimilarity(ans, answer) >= 0.8){
+        //Correct
+        return;
+      }
+    }
+    //Incorrect
   }
 }
