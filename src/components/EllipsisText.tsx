@@ -59,13 +59,13 @@ export default function EllipsisText({
       span.textContent = units[i];
       div.appendChild(span);
 
+      if(span.offsetTop === prevSpan?.offsetTop) continue;
+
       const actualHeight = parseFloat(window.getComputedStyle(div).height);
       const heightDiff = (actualHeight - previousHeight);
-
       const grothDiff = Math.abs(heightDiff - grothPerLine);
 
       previousHeight = actualHeight;
-      if(span.offsetTop === prevSpan?.offsetTop) continue;
 
       if(heightDiff === 0 || grothDiff > 0.001){
         span.remove();
