@@ -1,3 +1,4 @@
+import { sleep } from "@/utils/functions";
 import { useEffect, useRef } from "react";
 
 interface EllipsisTextProps extends React.HTMLAttributes<HTMLDivElement>{
@@ -38,7 +39,8 @@ export default function EllipsisText({
     }
   }
 
-  function AddText(){
+  async function AddText(){
+    await sleep(1);
     const div = divRef.current;
     if(div === null) return;
 

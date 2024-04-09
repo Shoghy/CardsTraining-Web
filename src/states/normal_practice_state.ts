@@ -3,10 +3,9 @@ import DeckModel from "@/model/DeckModel";
 import { useDatabase } from "@/utils/AppContext";
 import { textSimilarity } from "@/utils/functions";
 import { RandomFloat } from "@/utils/random";
-import { Database } from "@nozbe/watermelondb";
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
-import { Params, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 interface CardAndPosibility{
   card: CardModel
@@ -16,56 +15,31 @@ interface CardAndPosibility{
 export enum State{
   LOADING,
   AWAITING_ANSWER,
-  ANSWERED,
+  ANSWERED_RIGHT,
+  ANSWERED_WRONG,
 }
 
 const MAX_CARDS_PER_PRACTICE = 15;
-export class NormalPracticeState{
-  readonly cards: CardModel[];
-  readonly setCards: React.Dispatch<React.SetStateAction<CardModel[]>>;
-  readonly card: CardModel;
+export function NormalPracticeState(){
+  const params = useParams();
+  const deckId = params.deckId as string;
 
-  readonly state: State;
-  readonly setState: React.Dispatch<React.SetStateAction<State>>;
+  const database = useDatabase();
 
-  answer: string;
-  setAnswer: React.Dispatch<React.SetStateAction<string>>;
+  const [cards, setCards] = useState<CardModel[]>([]);
+  const [state, setState] = useState(State.LOADING);
+  const [answer, setAnswer] = useState("");
 
-  readonly database: Database;
+  const card = useMemo(() => cards[0], [cards]);
 
-  readonly params: Readonly<Params<string>>;
-  readonly deckId: string;
+  useEffect(() => {
+    LoadCards();
+  }, []);
 
-  constructor(){
-    this.params = useParams();
-    this.deckId = this.params.deckId as string;
-
-    const database = useDatabase();
-    this.database = database;
-
-    const [cards, setCards] = useState<CardModel[]>([]);
-    this.cards = cards;
-    this.setCards = setCards;
-
-    const [state, setState] = useState(State.LOADING);
-    this.state = state;
-    this.setState = setState;
-
-    const [answer, setAnswer] = useState("");
-    this.answer = answer;
-    this.setAnswer = setAnswer;
-
-    this.card = useMemo(() => this.cards[0], [this.cards]);
-
-    useEffect(() => {
-      this.LoadCards();
-    }, []);
-  }
-
-  private async LoadCards(){
-    const deck = await this.database
+  async function LoadCards(){
+    const deck = await database
       .get<DeckModel>(DeckModel.table)
-      .find(this.deckId);
+      .find(deckId);
 
     const cardAndPosibility: CardAndPosibility[] = [];
     const selectedCards: CardModel[] = [];
@@ -136,33 +110,36 @@ export class NormalPracticeState{
       currentValue = 0;
     }
 
-    this.setCards(selectedCards);
-    this.setState(State.AWAITING_ANSWER);
+    setCards(selectedCards);
+    setState(State.AWAITING_ANSWER);
   }
 
-  OnAnswer(){
-    const {
-      answer,
-      card,
-    } = this;
-
+  function OnAnswer(){
     const answers: string[] = JSON.parse(card.answer);
 
     for(let i = 0; i < answers.length; ++i){
       const ans = answers[i];
 
       if(ans === answer){
-        //Correct
+        setState(State.ANSWERED_RIGHT);
         return;
       }
 
       if(ans.length < 5) continue;
 
       if(textSimilarity(ans, answer) >= 0.8){
-        //Correct
+        setState(State.ANSWERED_RIGHT);
         return;
       }
     }
-    //Incorrect
+    setState(State.ANSWERED_WRONG);
   }
+
+  return {
+    answer,
+    setAnswer,
+    card,
+    state,
+    OnAnswer,
+  };
 }

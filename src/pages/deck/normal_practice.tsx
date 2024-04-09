@@ -3,7 +3,7 @@ import styles from "@/assets/css/pages/normal_practice.module.css";
 import StyledButton from "@/components/StyledButton";
 
 export function Component(){
-  const manager = new NormalPracticeState();
+  const manager = NormalPracticeState();
   const {
     answer,
     setAnswer,

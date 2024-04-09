@@ -7,7 +7,7 @@ import ListEnumerator, { FuncIteratorParams } from "@/components/ListEnumerator"
 import { useMemo } from "react";
 
 export function Component() {
-  const manager = new CreateEditDeleteState();
+  const manager = CreateEditDeleteState();
   const {
     statement,
     setStatement,
