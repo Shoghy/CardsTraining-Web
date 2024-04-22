@@ -1,4 +1,5 @@
 import CardModel from "@/model/CardModel";
+import CardRecordModel from "@/model/CardRecordModel";
 import DeckModel from "@/model/DeckModel";
 import { useDatabase } from "@/utils/AppContext";
 import { textSimilarity } from "@/utils/functions";
@@ -29,6 +30,7 @@ export function NormalPracticeState(){
   const [cards, setCards] = useState<CardModel[]>([]);
   const [state, setState] = useState(State.LOADING);
   const [answer, setAnswer] = useState("");
+  const [displayedText, setDisplayedText] = useState("");
 
   const card = useMemo(() => cards[0], [cards]);
 
@@ -47,11 +49,9 @@ export function NormalPracticeState(){
     let maxPosibilityNumber = 0;
     for(
       let i = 0;
-
       i < allCards.length
       &&
       selectedCards.length < MAX_CARDS_PER_PRACTICE;
-
       ++i
     ){
       const card = allCards[i];
@@ -89,11 +89,9 @@ export function NormalPracticeState(){
     let currentValue = 0;
     for(
       let index = 0;
-
       index < cardAndPosibility.length
       &&
       selectedCards.length < MAX_CARDS_PER_PRACTICE;
-
       ++index
     ){
       const data = cardAndPosibility[index];
@@ -110,29 +108,64 @@ export function NormalPracticeState(){
       currentValue = 0;
     }
 
+    setDisplayedText(selectedCards[0].statement);
     setCards(selectedCards);
     setState(State.AWAITING_ANSWER);
   }
 
-  function OnAnswer(){
+  async function OnAnswer(){
+    let state = State.ANSWERED_WRONG;
     const answers: string[] = JSON.parse(card.answer);
 
     for(let i = 0; i < answers.length; ++i){
       const ans = answers[i];
 
-      if(ans === answer){
-        setState(State.ANSWERED_RIGHT);
-        return;
+      if(ans.toLowerCase() === answer.toLowerCase()){
+        state = State.ANSWERED_RIGHT;
+        break;
       }
 
       if(ans.length < 5) continue;
 
-      if(textSimilarity(ans, answer) >= 0.8){
-        setState(State.ANSWERED_RIGHT);
-        return;
+      if(textSimilarity(ans.toLowerCase(), answer.toLowerCase()) >= 0.8){
+        state = State.ANSWERED_RIGHT;
+        break;
       }
     }
-    setState(State.ANSWERED_WRONG);
+    const now = new Date();
+    await database.write(async () => {
+      await card.update((c) => {
+        if(state === State.ANSWERED_RIGHT){
+          c.timesRight += 1;
+          c.wasLastAnswerCorrect = true;
+        }else{
+          c.timesWrong += 1;
+          c.wasLastAnswerCorrect = false;
+        }
+        c.lastTimePracticed = now;
+      });
+
+      await database.get<CardRecordModel>(CardRecordModel.table)
+        .create((record) => {
+          record.answeredCorrect = state === State.ANSWERED_RIGHT;
+          record.wasHintUsed = false;
+          record.datetime = now;
+          record.timeLeft = null;
+          record.maxTime = null;
+          record.card.set(card);
+        });
+    });
+
+    setState(state);
+    setDisplayedText(card.description);
+  }
+
+  function NextCard(){
+    setCards((c) => {
+      const clone = [...c];
+      clone.unshift();
+      return clone;
+    });
   }
 
   return {
@@ -141,5 +174,7 @@ export function NormalPracticeState(){
     card,
     state,
     OnAnswer,
+    displayedText,
+    NextCard,
   };
 }

@@ -43,3 +43,15 @@
   border-radius: 10px;
   border-style: solid;
 }
+
+.wrongAnswer{
+  border-style: solid;
+  border-width: 10px;
+  border-color: red;
+}
+
+.rightAnswer{
+  border-style: solid;
+  border-width: 10px;
+  border-color: blue;
+}
