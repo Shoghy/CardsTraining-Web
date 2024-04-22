@@ -1,6 +1,7 @@
 import { NormalPracticeState, State } from "@/states/normal_practice_state";
 import styles from "@/assets/css/pages/normal_practice.module.css";
 import StyledButton from "@/components/StyledButton";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function Component(){
   const manager = NormalPracticeState();
@@ -14,6 +15,9 @@ export function Component(){
   } = manager;
 
   if(state === State.LOADING) return <>Loading</>;
+  if(state === State.END_TRAINING){
+    return <EndTraining/>;
+  }
 
   const cardClass = [styles.card];
   if(state === State.ANSWERED_RIGHT){
@@ -60,6 +64,26 @@ export function Component(){
           Next card
         </StyledButton>
       }
+    </div>
+  );
+}
+
+function EndTraining(){
+  const navigate = useNavigate();
+  const params = useParams();
+  const deckId = params.deckId as string;
+
+  return (
+    <div className={styles.backGround}>
+      <h1>
+        Congratulations, you finished your training
+      </h1>
+      <StyledButton
+        look="yellow"
+        onClick={() => navigate(`/deck/${deckId}`)}
+      >
+        Go back
+      </StyledButton>
     </div>
   );
 }

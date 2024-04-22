@@ -18,6 +18,7 @@ export enum State{
   AWAITING_ANSWER,
   ANSWERED_RIGHT,
   ANSWERED_WRONG,
+  END_TRAINING,
 }
 
 const MAX_CARDS_PER_PRACTICE = 15;
@@ -32,7 +33,11 @@ export function NormalPracticeState(){
   const [answer, setAnswer] = useState("");
   const [displayedText, setDisplayedText] = useState("");
 
-  const card = useMemo(() => cards[0], [cards]);
+  const card = useMemo(() => {
+    const card = cards[0];
+    setDisplayedText(card?.statement ?? "");
+    return card;
+  }, [cards]);
 
   useEffect(() => {
     LoadCards();
@@ -91,6 +96,8 @@ export function NormalPracticeState(){
       let index = 0;
       index < cardAndPosibility.length
       &&
+      cardAndPosibility.length > 0
+      &&
       selectedCards.length < MAX_CARDS_PER_PRACTICE;
       ++index
     ){
@@ -100,7 +107,7 @@ export function NormalPracticeState(){
       if(currentValue < randomNumber) continue;
 
       selectedCards.push(data.card);
-      cardAndPosibility.splice(index, 0);
+      cardAndPosibility.splice(index, 1);
 
       index = -1;
       maxPosibilityNumber -= data.posibility;
@@ -163,9 +170,14 @@ export function NormalPracticeState(){
   function NextCard(){
     setCards((c) => {
       const clone = [...c];
-      clone.unshift();
+      clone.shift();
+      if(clone.length === 0){
+        setState(State.END_TRAINING);
+      }
       return clone;
     });
+    setState(State.AWAITING_ANSWER);
+    setAnswer("");
   }
 
   return {
