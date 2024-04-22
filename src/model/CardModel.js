@@ -23,8 +23,8 @@ export default class CardModel extends Model{
   /**@type {Date | null} */
   @date("lastTimePracticed") lastTimePracticed;
 
-  /**@type {number} */
-  @field("score") score;
+  /**@type {boolean | null} */
+  @field("wasLastAnswerCorrect") wasLastAnswerCorrect;
 
   /**@type {number} */
   @field("timesRight") timesRight;

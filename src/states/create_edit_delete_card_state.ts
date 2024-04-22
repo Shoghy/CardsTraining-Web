@@ -1,11 +1,10 @@
-import SelfAlert, { SelfAlertObject } from "@/components/CustomAlert/SelfAlert";
+import SelfAlert from "@/components/CustomAlert/SelfAlert";
 import CardModel from "@/model/CardModel";
 import DeckModel from "@/model/DeckModel";
 import { useDatabase } from "@/utils/AppContext";
 import { sleep } from "@/utils/functions";
-import { Database } from "@nozbe/watermelondb";
 import { useEffect, useState } from "react";
-import { NavigateFunction, Params, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface CardFillableData{
   statement: string
@@ -14,85 +13,44 @@ export interface CardFillableData{
   hint: string
 }
 
-export default class CreateEditDeleteState{
-  readonly statement: string;
-  readonly setStatement: React.Dispatch<React.SetStateAction<string>>;
+export default function CreateEditDeleteState(){
+  const navigate = useNavigate();
+  const params = useParams();
+  const deckId = params.deckId as string;
+  const cardId = params.cardId;
 
-  readonly answers: string[];
-  readonly setAnswers: React.Dispatch<React.SetStateAction<string[]>>;
+  const database = useDatabase();
 
-  readonly description: string;
-  readonly setDescription: React.Dispatch<React.SetStateAction<string>>;
+  const [statement, setStatement] = useState("");
+  const [answers, setAnswers] = useState([""]);
+  const [description, setDescription] = useState("");
+  const [hint, setHint] = useState("");
 
-  readonly hint: string;
-  readonly setHint: React.Dispatch<React.SetStateAction<string>>;
+  const alert = SelfAlert();
 
-  readonly alert: SelfAlertObject;
+  useEffect(() => {
+    if(cardId === undefined) return;
 
-  readonly navigate: NavigateFunction;
-  readonly params: Readonly<Params<string>>;
+    (async () => {
+      const card = await database.get<CardModel>(CardModel.table).find(cardId);
+      setStatement(card.statement);
+      setAnswers(JSON.parse(card.answer));
+      setDescription(card.description);
+      setHint(card.hint ?? "");
+    })();
+  }, []);
 
-  readonly deckId: string;
-  readonly cardId: string | undefined;
-
-  readonly database: Database;
-
-  constructor(){
-    this.navigate = useNavigate();
-    this.params = useParams();
-    this.deckId = this.params.deckId as string;
-    this.cardId = this.params.cardId;
-
-    this.database = useDatabase();
-
-    const [statement, setStatement] = useState("");
-    this.statement = statement;
-    this.setStatement = setStatement;
-
-    const [answer, setAnswer] = useState([""]);
-    this.answers = answer;
-    this.setAnswers = setAnswer;
-
-    const [description, setDescription] = useState("");
-    this.description = description;
-    this.setDescription = setDescription;
-
-    const [hint, setHint] = useState("");
-    this.hint = hint;
-    this.setHint = setHint;
-
-    const alert = SelfAlert();
-    this.alert = alert;
-
-    useEffect(() => {
-      if(this.cardId === undefined) return;
-      const cardId = this.cardId;
-
-      (async () => {
-        const card = await this.database.get<CardModel>(CardModel.table).find(cardId);
-        setStatement(card.statement);
-        setAnswer(JSON.parse(card.answer));
-        setDescription(card.description);
-        setHint(card.hint ?? "");
-      })();
-    }, []);
+  function EmptyFields(){
+    setStatement("");
+    setAnswers([""]);
+    setDescription("");
+    setHint("");
   }
 
-  EmptyFields(){
-    this.setStatement("");
-    this.setAnswers([""]);
-    this.setDescription("");
-    this.setHint("");
-  }
-
-  async CreateCard(kargs: CardFillableData){
-    const {
-      database,
-      alert,
-    } = this;
+  async function CreateCard(kargs: CardFillableData){
     const deck = await database
       .get<DeckModel>(DeckModel.table)
-      .find(this.deckId);
+      .find(deckId);
 
     await database.write(async () => {
       await database.get<CardModel>(CardModel.table)
@@ -102,7 +60,7 @@ export default class CreateEditDeleteState{
           card.description = kargs.description;
           card.hint = kargs.hint ? kargs.hint : null;
           card.lastTimePracticed = null;
-          card.score = 0;
+          card.wasLastAnswerCorrect = null;
           card.timesRight = 0;
           card.timesWrong = 0;
           card.deck.set(deck);
@@ -113,7 +71,7 @@ export default class CreateEditDeleteState{
       });
     });
 
-    this.EmptyFields();
+    EmptyFields();
 
     alert.openWith({
       title: "Success",
@@ -128,16 +86,12 @@ export default class CreateEditDeleteState{
     alert.close();
   }
 
-  async UpdateCard(kargs: CardFillableData){
-    const {
-      database,
-      alert,
-    } = this;
-    if(!this.cardId){
+  async function UpdateCard(kargs: CardFillableData){
+    if(!cardId){
       throw new Error("You shouldn't see this");
     }
 
-    const card = await database.get<CardModel>(CardModel.table).find(this.cardId);
+    const card = await database.get<CardModel>(CardModel.table).find(cardId);
 
     await database.write(async () => {
       card.update((card) => {
@@ -161,25 +115,39 @@ export default class CreateEditDeleteState{
     alert.close();
   }
 
-  SaveAction() {
-    const tStatement = this.statement.trim();
-    const tAnswer: string[] = this.answers.map((s) => s.trim());
-    const tDescription = this.description.trim();
-    const tHint = this.hint.trim();
+  function SaveAction() {
+    const tStatement = statement.trim();
+    const tAnswer: string[] = answers.map((s) => s.trim());
+    const tDescription = description.trim();
+    const tHint = hint.trim();
 
-    if (!tStatement || !tAnswer || !tDescription) {
-      this.alert.openWith({
+    if (!tStatement || !tDescription) {
+      alert.openWith({
         title: "Error",
-        message: "You must fill the statement, answer and description fields.",
+        message: "You must fill the statement and description fields.",
         xButton: () => {
-          this.alert.close();
+          alert.close();
         },
       });
       return;
     }
 
-    if(!this.cardId){
-      this.CreateCard({
+    for(let i = 0; i < tAnswer.length; ++i){
+      const answer = tAnswer[i];
+      if(!answer){
+        alert.openWith({
+          title: "Error",
+          message: "All answer should be filled, remove the ones empty or add something to them.",
+          xButton: () => {
+            alert.close();
+          },
+        });
+        return;
+      }
+    }
+
+    if(!cardId){
+      CreateCard({
         statement: tStatement,
         answer: JSON.stringify(tAnswer),
         description: tDescription,
@@ -187,7 +155,8 @@ export default class CreateEditDeleteState{
       });
       return;
     }
-    this.UpdateCard({
+
+    UpdateCard({
       statement: tStatement,
       answer: JSON.stringify(tAnswer),
       description: tDescription,
@@ -195,28 +164,45 @@ export default class CreateEditDeleteState{
     });
   }
 
-  async DeleteCard(){
-    if(!this.cardId){
+  async function DeleteCard(){
+    if(!cardId){
       throw new Error("You shouldn't see this");
     }
 
-    const card = await this.database.get<CardModel>(CardModel.table).find(this.cardId);
+    const card = await database.get<CardModel>(CardModel.table).find(cardId);
     const deck = await card.deck;
 
-    await this.database.write(async () => {
+    await database.write(async () => {
       await card.markAsDeleted();
       await deck.update(deck => {
         deck.amountOfCards -= 1;
       });
     });
 
-    this.alert.openWith({
+    alert.openWith({
       title: "Success",
       message: "Card deleted successfully",
     });
 
     await sleep(2500);
 
-    this.navigate(`/deck/${this.deckId}/manage-cards`);
+    navigate(`/deck/${deckId}/manage-cards`);
   }
+
+  return {
+    DeleteCard,
+    SaveAction,
+    statement,
+    setStatement,
+    answers,
+    setAnswers,
+    description,
+    setDescription,
+    hint,
+    setHint,
+    alert,
+    navigate,
+    cardId,
+    deckId,
+  };
 }

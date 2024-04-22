@@ -15,3 +15,7 @@ export function RandomInt(minInclusive:number, maxInclusive:number){
     Math.random() * (maxInclusive - minInclusive + 1)
   )  + minInclusive;
 }
+
+export function RandomFloat(minInclusive:number, maxInclusive:number){
+  return Math.random() * (maxInclusive - minInclusive) + minInclusive;
+}

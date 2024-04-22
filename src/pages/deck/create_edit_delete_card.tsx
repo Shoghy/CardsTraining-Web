@@ -6,8 +6,8 @@ import CreateEditDeleteState from "@/states/create_edit_delete_card_state";
 import ListEnumerator, { FuncIteratorParams } from "@/components/ListEnumerator";
 import { useMemo } from "react";
 
-export default function CreateCard() {
-  const manager = new CreateEditDeleteState();
+export function Component() {
+  const manager = CreateEditDeleteState();
   const {
     statement,
     setStatement,

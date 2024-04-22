@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useDatabase } from "@/utils/AppContext";
 import DeckModel from "@/model/DeckModel";
 
-export default function DeckPage() {
+export function Component() {
   const navigate = useNavigate();
   const params = useParams();
   const deckId = params.deckId as string;
@@ -30,20 +30,9 @@ export default function DeckPage() {
       <BasicButton
         className={styles.btn}
         disabled={!hasCards}
+        onClick={() => navigate(`/deck/${deckId}/normal-practice`)}
       >
         Normal Practice
-      </BasicButton>
-      <BasicButton
-        className={styles.btn}
-        disabled={!hasCards}
-      >
-        Practice against time
-      </BasicButton>
-      <BasicButton
-        className={styles.btn}
-        disabled={!hasCards}
-      >
-        Custom practice
       </BasicButton>
       <BasicButton
         className={styles.btn}

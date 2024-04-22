@@ -21,7 +21,7 @@ export default appSchema({
         { name: "description", type: "string" },
         { name: "hint", type: "string", isOptional: true },
         { name: "lastTimePracticed", type: "number", isOptional: true },
-        { name: "score", type: "number" },
+        { name: "wasLastAnswerCorrect", type: "boolean", isOptional: true },
         { name: "timesRight", type: "number" },
         { name: "timesWrong", type: "number" },
       ]

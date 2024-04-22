@@ -11,7 +11,7 @@ import DeckModel from "@/model/DeckModel";
 import CardButton from "@/components/CardButton";
 import StyledButton from "@/components/StyledButton";
 
-export default function CardsManager() {
+export function Component() {
   const navigate = useNavigate();
   const params = useParams();
   const deckId = params.deckId as string;

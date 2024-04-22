@@ -8,36 +8,35 @@ import CardModel from "./model/CardModel";
 import CardRecordModel from "./model/CardRecordModel";
 import { useState } from "react";
 import { AppContext, IAppContext } from "./utils/AppContext";
-import DeckSelector from "@/pages/index";
-import CreateDeck from "./pages/create_deck";
-import DeckPage from "./pages/deck/index";
-import CardsManager from "./pages/deck/manage_cards";
-import CreateEditDeleteCard from "./pages/deck/create_edit_delete_card";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: DeckSelector,
+    lazy: () => import("@/pages/index"),
   },
   {
     path: "create-deck",
-    Component: CreateDeck,
+    lazy: () => import("@/pages/create_deck"),
   },
   {
     path: "deck/:deckId",
-    Component: DeckPage,
+    lazy: () => import("@/pages/deck"),
+  },
+  {
+    path: "deck/:deckId/normal-practice",
+    lazy: () => import("@/pages/deck/normal_practice"),
   },
   {
     path: "deck/:deckId/manage-cards",
-    Component: CardsManager,
+    lazy: () => import("@/pages/deck/manage_cards"),
   },
   {
     path: "deck/:deckId/create-card",
-    Component: CreateEditDeleteCard,
+    lazy: () => import("@/pages/deck/create_edit_delete_card"),
   },
   {
     path: "deck/:deckId/card/:cardId/edit",
-    Component: CreateEditDeleteCard,
+    lazy: () => import("@/pages/deck/create_edit_delete_card"),
   },
 ]);
 
